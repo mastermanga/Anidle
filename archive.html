@@ -1,196 +1,150 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Animedle 🎮</title>
+  <meta charset="UTF-8">
+  <title>Animedle</title>
   <style>
-    :root {
-      --bg: #f5f5f5;
-      --text: #111;
-      --cell-red: #F44336;
-      --cell-green: #4CAF50;
-      --cell-bg: #fff;
-    }
-
-    body.dark {
-      --bg: #1c1c1c;
-      --text: #eee;
-      --cell-red: #c62828;
-      --cell-green: #388e3c;
-      --cell-bg: #333;
-    }
-
     body {
       font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
       text-align: center;
-      background-color: var(--bg);
-      color: var(--text);
-      margin: 0;
       padding: 20px;
     }
-
-    h1 {
-      font-size: 2rem;
-      margin-bottom: 10px;
+    .input-container {
+      margin-bottom: 20px;
     }
-
-    #searchBox {
-      position: relative;
-      display: inline-block;
-    }
-
-    input {
+    input[type="text"] {
       padding: 10px;
-      font-size: 1rem;
-      width: 250px;
+      font-size: 16px;
+      width: 300px;
+      border-radius: 5px;
+      border: none;
     }
-
-    #suggestions {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: var(--cell-bg);
-      border: 1px solid #ccc;
-      max-height: 150px;
-      overflow-y: auto;
-      z-index: 10;
+    .suggestions {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      max-width: 300px;
+      margin: 0 auto 10px;
+      text-align: left;
     }
-
-    #suggestions div {
+    .suggestions div {
       padding: 8px;
       cursor: pointer;
     }
-
-    #suggestions div:hover {
-      background-color: #eee;
+    .suggestions div:hover {
+      background-color: #333;
     }
-
-    button {
-      padding: 10px;
-      font-size: 1rem;
-      margin: 10px 5px;
-      cursor: pointer;
-    }
-
-    #results {
-      margin-top: 20px;
-    }
-
     .row {
       display: flex;
       justify-content: center;
-      margin: 10px 0;
-      flex-wrap: wrap;
+      margin-bottom: 5px;
     }
-
     .cell {
-      border: 1px solid #ccc;
-      padding: 10px;
+      padding: 8px;
       margin: 2px;
-      width: 140px;
-      text-align: center;
-      font-weight: bold;
-      border-radius: 5px;
-      background-color: var(--cell-bg);
+      border-radius: 4px;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+      white-space: normal;
+      overflow-wrap: break-word;
     }
-
+    .cell-image {
+      min-width: 100px;
+      max-width: 100px;
+    }
+    .cell-title {
+      min-width: 250px;
+      max-width: 280px;
+    }
+    .cell-genre, .cell-theme {
+      min-width: 200px;
+      max-width: 220px;
+      text-align: left;
+    }
+    .cell-studio {
+      min-width: 150px;
+      max-width: 160px;
+    }
+    .cell-season {
+      min-width: 120px;
+      max-width: 130px;
+    }
+    .cell-score {
+      min-width: 90px;
+      max-width: 100px;
+    }
     .green {
-      background-color: var(--cell-green);
+      background-color: #4caf50 !important;
       color: white;
     }
-
     .red {
-      background-color: var(--cell-red);
+      background-color: #f44336 !important;
       color: white;
     }
-
-    #counter {
-      font-weight: bold;
-      margin-top: 10px;
+    .orange {
+      background-color: #ff9800 !important;
+      color: white;
     }
-
     #winMessage {
       margin-top: 20px;
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: green;
+      font-size: 20px;
     }
-
-    canvas {
+    #fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
       pointer-events: none;
+      z-index: 1000;
     }
   </style>
 </head>
 <body>
-  <h1>Animedle 🎌</h1>
-  <p>Devine l'anime mystère !</p>
-
-  <div id="searchBox">
-    <input type="text" id="animeInput" placeholder="Rechercher un anime..." oninput="showSuggestions()" autocomplete="off"/>
-    <div id="suggestions"></div>
+  <h1>Animedle 🎮</h1>
+  <div class="input-container">
+    <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime...">
+    <div id="suggestions" class="suggestions"></div>
+    <div id="counter">Tentatives : 0</div>
   </div>
-
-  <div>
-    <button onclick="guessAnime()">Deviner</button>
-    <button onclick="resetGame()">🔁 Rejouer</button>
-    <button onclick="toggleDarkMode()">🌙 Mode Sombre</button>
-  </div>
-
-  <div id="counter">Tentatives : 0</div>
   <div id="results"></div>
-  <canvas id="fireworksCanvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;z-index:1000;"></canvas>
+  <button onclick="resetGame()">🔄 Rejouer</button>
+  <canvas id="fireworks"></canvas>
 
   <script>
     let animeData = [];
-    let targetAnime;
+    let targetAnime = null;
     let attemptCount = 0;
     let gameOver = false;
 
     fetch('animes.json')
-      .then(res => res.json())
+      .then(response => response.json())
       .then(data => {
         animeData = data;
-        startNewGame();
+        targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
+        console.log("Réponse secrète:", targetAnime);
       });
 
-    function startNewGame() {
-      targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
-      attemptCount = 0;
-      gameOver = false;
-      document.getElementById("results").innerHTML = "";
-      document.getElementById("counter").textContent = "Tentatives : 0";
-      document.getElementById("animeInput").disabled = false;
-      document.getElementById("animeInput").value = "";
-      document.getElementById("winMessage")?.remove();
-      document.getElementById("suggestions").innerHTML = "";
-      clearCanvas();
-    }
-
-    function showSuggestions() {
-      if (gameOver) return;
-      const input = document.getElementById("animeInput").value.toLowerCase();
+    document.getElementById("animeInput").addEventListener("input", function() {
+      const input = this.value.toLowerCase();
+      const matches = animeData.filter(a => a.title.toLowerCase().includes(input)).slice(0, 5);
       const suggestions = document.getElementById("suggestions");
       suggestions.innerHTML = "";
-
-      if (input.length === 0) return;
-
-      const matches = animeData.filter(anime => anime.title.toLowerCase().includes(input));
       matches.forEach(anime => {
         const div = document.createElement("div");
         div.textContent = anime.title;
         div.onclick = () => {
           document.getElementById("animeInput").value = anime.title;
           suggestions.innerHTML = "";
+          guessAnime();
         };
         suggestions.appendChild(div);
       });
-    }
+    });
 
     function guessAnime() {
       if (gameOver) return;
-
       const input = document.getElementById("animeInput").value.trim();
       const guessedAnime = animeData.find(a => a.title.toLowerCase() === input.toLowerCase());
 
@@ -201,50 +155,100 @@
 
       attemptCount++;
       document.getElementById("counter").textContent = "Tentatives : " + attemptCount;
+      const results = document.getElementById("results");
 
-      const row = document.createElement('div');
-      row.classList.add('row');
+      const keyToClass = {
+        image: "cell-image",
+        title: "cell-title",
+        season: "cell-season",
+        studio: "cell-studio",
+        genres: "cell-genre",
+        themes: "cell-theme",
+        score: "cell-score"
+      };
 
-      ['title', 'season', 'studio', 'genre', 'theme', 'score'].forEach(key => {
-        const cell = document.createElement('div');
-        cell.classList.add('cell');
-        cell.classList.add(guessedAnime[key] === targetAnime[key] ? 'green' : 'red');
-        cell.textContent = guessedAnime[key];
+      if (attemptCount === 1) {
+        const header = document.createElement("div");
+        header.classList.add("row");
+        ["Image", "Titre", "Saison", "Studio", "Genres", "Thèmes", "Score"].forEach((label, i) => {
+          const cell = document.createElement("div");
+          cell.classList.add("cell", Object.values(keyToClass)[i]);
+          cell.style.fontWeight = "bold";
+          cell.textContent = label;
+          header.appendChild(cell);
+        });
+        results.appendChild(header);
+      }
+
+      const row = document.createElement("div");
+      row.classList.add("row");
+
+      ["image", "title", "season", "studio", "genres", "themes", "score"].forEach(key => {
+        const cell = document.createElement("div");
+        cell.classList.add("cell", keyToClass[key]);
+
+        if (key === "image") {
+          const img = document.createElement("img");
+          img.src = guessedAnime.image;
+          img.alt = guessedAnime.title;
+          img.style.width = "100px";
+          cell.appendChild(img);
+        } else if (key === "score") {
+          const g = parseFloat(guessedAnime.score);
+          const t = parseFloat(targetAnime.score);
+          if (g === t) cell.classList.add("green");
+          else cell.textContent = `${g} ${g < t ? "🔼" : "🔽"}`;
+          if (g === t) cell.textContent = g;
+        } else if (key === "season") {
+          const [gs, gy] = guessedAnime.season.split(" ");
+          const [ts, ty] = targetAnime.season.split(" ");
+          if (gs === ts && gy === ty) cell.classList.add("green");
+          else if (gy === ty) cell.classList.add("orange");
+          else cell.classList.add("red");
+          cell.textContent = guessedAnime.season;
+        } else if (key === "genres" || key === "themes") {
+          const matches = guessedAnime[key].filter(x => targetAnime[key].includes(x));
+          if (matches.length === guessedAnime[key].length && matches.length === targetAnime[key].length) cell.classList.add("green");
+          else if (matches.length > 0) cell.classList.add("orange");
+          else cell.classList.add("red");
+          cell.innerHTML = guessedAnime[key].join("<br>");
+        } else {
+          const isMatch = guessedAnime[key] === targetAnime[key];
+          cell.classList.add(isMatch ? "green" : "red");
+          cell.textContent = guessedAnime[key];
+        }
+
         row.appendChild(cell);
       });
 
-      document.getElementById("results").appendChild(row);
+      // Ajouter au début (pour que la dernière tentative soit en haut)
+      const header = results.querySelector(".row");
+      results.insertBefore(row, header.nextSibling);
+
       document.getElementById("animeInput").value = "";
       document.getElementById("suggestions").innerHTML = "";
 
       if (guessedAnime.title === targetAnime.title) {
         gameOver = true;
         document.getElementById("animeInput").disabled = true;
-
         const message = document.createElement("div");
         message.id = "winMessage";
         message.innerHTML = `🎆 <span style="font-size:2rem;">🥳</span> Bravo ! C'était <u>${targetAnime.title}</u> en ${attemptCount} tentative${attemptCount > 1 ? 's' : ''}. <span style="font-size:2rem;">🎉</span>`;
-        document.getElementById("results").appendChild(message);
+        results.appendChild(message);
         launchFireworks();
       }
     }
 
     function resetGame() {
-      startNewGame();
+      location.reload();
     }
 
-    function toggleDarkMode() {
-      document.body.classList.toggle("dark");
-    }
-
-    // Fireworks
     function launchFireworks() {
-      const canvas = document.getElementById("fireworksCanvas");
+      const canvas = document.getElementById("fireworks");
       const ctx = canvas.getContext("2d");
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
-
-      let particles = [];
+      const particles = [];
 
       function createParticle(x, y) {
         const angle = Math.random() * 2 * Math.PI;
@@ -254,48 +258,38 @@
           y,
           dx: Math.cos(angle) * speed,
           dy: Math.sin(angle) * speed,
-          life: 100,
-          color: `hsl(${Math.random() * 360}, 100%, 50%)`
+          life: 60
         };
       }
 
-      function explode(x, y) {
-        for (let i = 0; i < 50; i++) {
-          particles.push(createParticle(x, y));
-        }
+      for (let i = 0; i < 100; i++) {
+        particles.push(createParticle(canvas.width / 2, canvas.height / 2));
       }
 
       function animate() {
-        ctx.fillStyle = "rgba(0,0,0,0.1)";
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        particles.forEach((p, i) => {
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          ctx.fill();
           p.x += p.dx;
           p.y += p.dy;
           p.dy += 0.05;
           p.life--;
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.fill();
-          if (p.life <= 0) particles.splice(i, 1);
         });
 
-        if (particles.length > 0) {
-          requestAnimationFrame(animate);
-        } else {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+        for (let i = particles.length - 1; i >= 0; i--) {
+          if (particles[i].life <= 0) particles.splice(i, 1);
         }
+
+        if (particles.length > 0) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
 
-      explode(canvas.width / 2, canvas.height / 2);
       animate();
-    }
-
-    function clearCanvas() {
-      const canvas = document.getElementById("fireworksCanvas");
-      const ctx = canvas.getContext("2d");
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
     }
   </script>
 </body>
