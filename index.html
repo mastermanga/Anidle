@@ -11,9 +11,6 @@
       text-align: center;
       padding: 20px;
     }
-    .input-container {
-      margin-bottom: 20px;
-    }
     input[type="text"] {
       padding: 10px;
       font-size: 16px;
@@ -39,6 +36,7 @@
       display: flex;
       justify-content: center;
       margin-bottom: 5px;
+      flex-wrap: wrap;
     }
     .cell {
       padding: 8px;
@@ -49,17 +47,49 @@
       white-space: normal;
       overflow-wrap: break-word;
     }
-    .cell-image { min-width: 100px; max-width: 100px; }
-    .cell-title { min-width: 250px; max-width: 280px; font-weight: bold; }
-    .cell-genre { min-width: 220px; max-width: 240px; text-align: left; }
-    .cell-studio { min-width: 150px; max-width: 160px; }
-    .cell-season { min-width: 120px; max-width: 130px; }
-    .cell-score { min-width: 90px; max-width: 100px; }
-    .green { background-color: #4caf50 !important; color: white; }
-    .red { background-color: #f44336 !important; color: white; }
-    .orange { background-color: #ff9800 !important; color: white; }
-    .blur { filter: blur(8px); }
-    #winMessage { margin-top: 20px; font-size: 20px; }
+    .cell-image {
+      min-width: 100px;
+      max-width: 100px;
+    }
+    .cell-title {
+      min-width: 250px;
+      max-width: 280px;
+    }
+    .cell-genre {
+      min-width: 300px;
+      max-width: 320px;
+    }
+    .cell-studio {
+      min-width: 150px;
+      max-width: 160px;
+    }
+    .cell-season {
+      min-width: 120px;
+      max-width: 130px;
+    }
+    .cell-score {
+      min-width: 90px;
+      max-width: 100px;
+    }
+    .green {
+      background-color: #4caf50 !important;
+      color: white;
+    }
+    .red {
+      background-color: #f44336 !important;
+      color: white;
+    }
+    .orange {
+      background-color: #ff9800 !important;
+      color: white;
+    }
+    .blur {
+      filter: blur(8px);
+    }
+    #winMessage {
+      margin-top: 20px;
+      font-size: 20px;
+    }
     #fireworks {
       position: fixed;
       top: 0;
@@ -69,33 +99,43 @@
       pointer-events: none;
       z-index: 1000;
     }
-    #hintBox {
-      margin: 10px auto;
-      font-size: 18px;
-      color: #ffeb3b;
-      max-width: 400px;
+    button {
+      padding: 8px 16px;
+      margin: 10px;
+      font-size: 16px;
+      border-radius: 5px;
+      border: none;
+      background-color: #444;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #666;
     }
   </style>
 </head>
 <body>
   <h1>Animedle 🎮</h1>
+
   <div class="input-container">
     <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime...">
     <div id="suggestions" class="suggestions"></div>
     <div id="counter">Tentatives : 0</div>
-    <button id="hintButton" onclick="showHint()">🧩 Obtenir un indice</button>
-    <div id="hintBox"></div>
   </div>
-  <div id="results"></div>
+
+  <button onclick="showHint()">💡 Indice</button>
   <button onclick="resetGame()">🔄 Rejouer</button>
+
+  <div id="hintBox" style="margin-top: 20px;"></div>
+  <div id="results"></div>
   <canvas id="fireworks"></canvas>
 
   <script>
     let animeData = [];
     let targetAnime = null;
     let attemptCount = 0;
-    let gameOver = false;
     let hintStep = 0;
+    let gameOver = false;
 
     fetch('animes.json')
       .then(response => response.json())
@@ -148,7 +188,7 @@
       if (attemptCount === 1) {
         const header = document.createElement("div");
         header.classList.add("row");
-        ["Image", "Titre", "Saison", "Studio", "Genres/Thèmes", "Score"].forEach((label, i) => {
+        ["Image", "Titre", "Saison", "Studio", "Genres / Thèmes", "Score"].forEach((label, i) => {
           const cell = document.createElement("div");
           cell.classList.add("cell", Object.values(keyToClass)[i]);
           cell.style.fontWeight = "bold";
@@ -171,10 +211,6 @@
           img.alt = guessedAnime.title;
           img.style.width = "100px";
           cell.appendChild(img);
-        } else if (key === "title") {
-          const isMatch = guessedAnime.title === targetAnime.title;
-          cell.classList.add(isMatch ? "green" : "red");
-          cell.innerHTML = isMatch ? `<u>${guessedAnime.title}</u>` : guessedAnime.title;
         } else if (key === "score") {
           const g = parseFloat(guessedAnime.score);
           const t = parseFloat(targetAnime.score);
@@ -188,8 +224,6 @@
         } else if (key === "season") {
           const [gs, gy] = guessedAnime.season.split(" ");
           const [ts, ty] = targetAnime.season.split(" ");
-          const guessYear = parseInt(gy);
-          const targetYear = parseInt(ty);
           if (gs === ts && gy === ty) {
             cell.classList.add("green");
             cell.textContent = `✅ ${guessedAnime.season}`;
@@ -198,14 +232,14 @@
             cell.textContent = `🟧 ${guessedAnime.season}`;
           } else {
             cell.classList.add("red");
-            cell.textContent = guessYear < targetYear
+            cell.textContent = parseInt(gy) < parseInt(ty)
               ? `🔼 ${guessedAnime.season}` : `${guessedAnime.season} 🔽`;
           }
         } else if (key === "genres") {
-          const allTags = [...new Set([...guessedAnime.genres, ...guessedAnime.themes])];
-          const targetTags = [...new Set([...targetAnime.genres, ...targetAnime.themes])];
-          const matches = allTags.filter(x => targetTags.includes(x));
-          if (matches.length === allTags.length && matches.length === targetTags.length) {
+          const themes = guessedAnime.themes || [];
+          const allTags = guessedAnime.genres.concat(themes);
+          const matches = allTags.filter(x => [...targetAnime.genres, ...(targetAnime.themes || [])].includes(x));
+          if (matches.length === allTags.length && matches.length === (targetAnime.genres.length + (targetAnime.themes?.length || 0))) {
             cell.classList.add("green");
           } else if (matches.length > 0) {
             cell.classList.add("orange");
@@ -213,6 +247,10 @@
             cell.classList.add("red");
           }
           cell.innerHTML = allTags.join("<br>");
+        } else if (key === "title") {
+          const isMatch = guessedAnime[key] === targetAnime[key];
+          cell.classList.add(isMatch ? "green" : "red");
+          cell.innerHTML = `<strong>${guessedAnime[key]}</strong>`;
         } else {
           const isMatch = guessedAnime[key] === targetAnime[key];
           cell.classList.add(isMatch ? "green" : "red");
@@ -222,9 +260,7 @@
         row.appendChild(cell);
       });
 
-      const header = results.querySelector(".row");
-      results.insertBefore(row, header.nextSibling);
-
+      results.appendChild(row);
       document.getElementById("animeInput").value = "";
       document.getElementById("suggestions").innerHTML = "";
 
@@ -241,27 +277,34 @@
 
     function showHint() {
       const hintBox = document.getElementById("hintBox");
-      if (!targetAnime) return;
+      if (!targetAnime || gameOver) return;
       hintStep++;
 
+      const hint = document.createElement("div");
+      hint.style.margin = "5px 0";
+
       if (hintStep === 1) {
-        hintBox.textContent = `🎭 Indice : Genre principal → ${targetAnime.genres[0]}`;
+        hint.innerHTML = `🎭 Indice 1 : Genre principal → <strong>${targetAnime.genres[0]}</strong>`;
       } else if (hintStep === 2) {
-        hintBox.textContent = `🏢 Indice : Studio → ${targetAnime.studio}`;
+        hint.innerHTML = `🏢 Indice 2 : Studio → <strong>${targetAnime.studio}</strong>`;
       } else if (hintStep === 3) {
-        hintBox.textContent = `📅 Indice : Saison → ${targetAnime.season}`;
+        hint.innerHTML = `📅 Indice 3 : Saison → <strong>${targetAnime.season}</strong>`;
       } else if (hintStep === 4) {
-        hintBox.textContent = `🔤 Indice : La première lettre du titre est "${targetAnime.title[0]}"`;
+        hint.innerHTML = `🔤 Indice 4 : Première lettre → <strong>${targetAnime.title[0]}</strong>`;
       } else if (hintStep === 5) {
+        hint.innerHTML = `🖼️ Indice 5 : Image floutée :<br>`;
         const blurredImg = document.createElement("img");
         blurredImg.src = targetAnime.image;
         blurredImg.className = "blur";
         blurredImg.style.width = "150px";
-        hintBox.innerHTML = `🖼️ Indice : Voici une image floutée :<br>`;
-        hintBox.appendChild(blurredImg);
+        blurredImg.style.marginTop = "5px";
+        hint.appendChild(blurredImg);
       } else {
-        hintBox.textContent = "🛑 Aucun autre indice disponible !";
+        hintStep--;
+        return;
       }
+
+      hintBox.appendChild(hint);
     }
 
     function resetGame() {
@@ -316,8 +359,5 @@
   </script>
 </body>
 </html>
-
-
-
 
 
