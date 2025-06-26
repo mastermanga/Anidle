@@ -237,7 +237,7 @@
       // Genre
       const cellGenre = document.createElement("td");
       cellGenre.classList.add("genre");
-      const genreColor = compareLists(guessedAnime.genre, targetAnime.genre);
+      const genreColor = compareLists(guessedAnime.genres, targetAnime.genres);
       cellGenre.classList.add(genreColor);
       cellGenre.textContent = guessedAnime.genre.join(", ");
       row.appendChild(cellGenre);
@@ -245,7 +245,7 @@
       // Thème
       const cellTheme = document.createElement("td");
       cellTheme.classList.add("theme");
-      const themeColor = compareLists(guessedAnime.theme, targetAnime.theme);
+      const themeColor = compareLists(guessedAnime.themes, targetAnime.themes);
       cellTheme.classList.add(themeColor);
       cellTheme.textContent = guessedAnime.theme.join(", ");
       row.appendChild(cellTheme);
