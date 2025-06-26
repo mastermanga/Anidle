@@ -47,26 +47,18 @@
       border-radius: 4px;
       background-color: #2a2a2a;
       border: 1px solid #444;
-      text-align: left;
+      text-align: center;
     }
-    .green {
-      background-color: #4caf50 !important;
-      color: white;
-    }
-    .red {
-      background-color: #f44336 !important;
-      color: white;
-    }
-    .orange {
-      background-color: orange !important;
-      color: black;
-    }
-    #counter {
-      margin-bottom: 10px;
-    }
-    #winMessage {
-      font-size: 20px;
-      margin-top: 20px;
+    .green { background-color: #4caf50 !important; color: white; }
+    .red { background-color: #f44336 !important; color: white; }
+    .orange { background-color: orange !important; color: black; }
+    #counter { margin-bottom: 10px; }
+    #winMessage { font-size: 20px; margin-top: 20px; }
+    img.anime-image {
+      width: 80px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 4px;
     }
   </style>
 </head>
@@ -127,7 +119,7 @@
       if (attemptCount === 1) {
         const header = document.createElement("div");
         header.classList.add("row");
-        ["Titre", "Saison", "Studio", "Genres", "Thèmes", "Score"].forEach(label => {
+        ["Image", "Titre", "Saison", "Studio", "Genres", "Thèmes", "Score"].forEach(label => {
           const cell = document.createElement("div");
           cell.classList.add("cell");
           cell.style.fontWeight = "bold";
@@ -140,25 +132,31 @@
       const row = document.createElement("div");
       row.classList.add("row");
 
-      ["title", "season", "studio", "genres", "themes", "score"].forEach(key => {
+      const keys = ["image", "title", "season", "studio", "genres", "themes", "score"];
+      keys.forEach(key => {
         const cell = document.createElement("div");
         cell.classList.add("cell");
 
-        if (key === "score") {
+        if (key === "image") {
+          const img = document.createElement("img");
+          img.src = guessedAnime.image;
+          img.alt = guessedAnime.title;
+          img.className = "anime-image";
+          cell.appendChild(img);
+        } else if (key === "score") {
           const guessed = parseFloat(guessedAnime.score);
           const target = parseFloat(targetAnime.score);
           if (guessed === target) {
             cell.classList.add("green");
+            cell.textContent = guessed;
           } else {
-            cell.textContent = `${guessed} ${guessed < target ? "🔼" : "🔽"}`;
             cell.classList.add("red");
+            cell.textContent = `${guessed} ${guessed < target ? "🔼" : "🔽"}`;
           }
-          if (guessed === target) cell.textContent = guessed;
         } else if (key === "genres" || key === "themes") {
           const guessedSet = new Set(guessedAnime[key]);
           const targetSet = new Set(targetAnime[key]);
           const intersection = [...guessedSet].filter(x => targetSet.has(x));
-
           if (intersection.length === 0) {
             cell.classList.add("red");
           } else if (intersection.length < targetSet.size || guessedSet.size > targetSet.size) {
@@ -172,7 +170,6 @@
           const t = targetAnime[key].toLowerCase();
           const gYear = g.split(" ")[1];
           const tYear = t.split(" ")[1];
-
           if (g === t) {
             cell.classList.add("green");
           } else if (gYear === tYear) {
@@ -182,8 +179,9 @@
           }
           cell.textContent = guessedAnime[key];
         } else if (key === "title") {
-          cell.innerHTML = `<img src="${guessedAnime.image}" alt="img" style="width:40px;height:60px;object-fit:cover;vertical-align:middle;margin-right:5px;border-radius:4px;"> ${guessedAnime.title}`;
-          cell.classList.add(guessedAnime.title === targetAnime.title ? "green" : "red");
+          const isMatch = guessedAnime.title === targetAnime.title;
+          cell.classList.add(isMatch ? "green" : "red");
+          cell.textContent = guessedAnime.title;
         } else {
           const isMatch = guessedAnime[key] === targetAnime[key];
           cell.classList.add(isMatch ? "green" : "red");
@@ -193,7 +191,6 @@
         row.appendChild(cell);
       });
 
-      // Inverser l'ordre : ajoute en haut
       results.insertBefore(row, results.children[1]);
 
       document.getElementById("animeInput").value = "";
