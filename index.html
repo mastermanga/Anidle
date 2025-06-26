@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Animedle</title>
   <style>
     body {
@@ -39,20 +39,16 @@
       display: flex;
       justify-content: center;
       margin-bottom: 5px;
-      flex-wrap: nowrap;
     }
     .cell {
       padding: 8px;
       margin: 2px;
-      flex-basis: 160px;
-      flex-shrink: 0;
-      flex-grow: 0;
-      text-align: center;
+      min-width: 140px;
       border-radius: 4px;
       background-color: #2a2a2a;
       border: 1px solid #444;
-      overflow-wrap: break-word;
-      word-break: break-word;
+      word-wrap: break-word;
+      white-space: normal;
     }
     .green {
       background-color: #4caf50 !important;
@@ -60,6 +56,10 @@
     }
     .red {
       background-color: #f44336 !important;
+      color: white;
+    }
+    .orange {
+      background-color: #ff9800 !important;
       color: white;
     }
     #winMessage {
@@ -80,7 +80,7 @@
 <body>
   <h1>Animedle 🎮</h1>
   <div class="input-container">
-    <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime...">
+    <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime..." autocomplete="off" />
     <div id="suggestions" class="suggestions"></div>
     <div id="counter">Tentatives : 0</div>
   </div>
@@ -99,10 +99,10 @@
       .then(data => {
         animeData = data;
         targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
-        console.log("Réponse secrète:", targetAnime); // pour debug
+        console.log("Réponse secrète:", targetAnime); // debug
       });
 
-    document.getElementById("animeInput").addEventListener("input", function() {
+    document.getElementById("animeInput").addEventListener("input", function () {
       const input = this.value.toLowerCase();
       const matches = animeData.filter(a => a.title.toLowerCase().includes(input)).slice(0, 5);
       const suggestions = document.getElementById("suggestions");
@@ -118,6 +118,27 @@
         suggestions.appendChild(div);
       });
     });
+
+    // Helper pour comparer la saison + année, renvoie 'green', 'orange' ou 'red'
+    function compareSeason(guessSeason, targetSeason) {
+      // Format attendu : "spring 2010"
+      const [guessSaison, guessYear] = guessSeason.toLowerCase().split(" ");
+      const [targetSaison, targetYear] = targetSeason.toLowerCase().split(" ");
+      if (guessSeason === targetSeason) return "green";
+      if (guessYear === targetYear) return "orange";
+      return "red";
+    }
+
+    // Helper pour comparer listes (genre/theme)
+    // renvoie 'green' si identiques, 'orange' si intersection non vide, 'red' sinon
+    function compareLists(guessList, targetList) {
+      const guessSet = new Set(guessList.map(s => s.toLowerCase()));
+      const targetSet = new Set(targetList.map(s => s.toLowerCase()));
+      const intersection = [...guessSet].filter(x => targetSet.has(x));
+      if (guessSet.size === targetSet.size && intersection.length === guessSet.size) return "green";
+      if (intersection.length > 0) return "orange";
+      return "red";
+    }
 
     function guessAnime() {
       if (gameOver) return;
@@ -149,45 +170,77 @@
       const row = document.createElement("div");
       row.classList.add("row");
 
-      ["title", "season", "studio", "genre", "theme", "score"].forEach(key => {
-        const cell = document.createElement("div");
-        cell.classList.add("cell");
+      // TITRE
+      const cellTitle = document.createElement("div");
+      cellTitle.classList.add("cell");
+      if (guessedAnime.title.toLowerCase() === targetAnime.title.toLowerCase()) {
+        cellTitle.classList.add("green");
+      } else {
+        cellTitle.classList.add("red");
+      }
+      cellTitle.textContent = guessedAnime.title;
+      row.appendChild(cellTitle);
 
-        let guessedValue = guessedAnime[key];
-        let targetValue = targetAnime[key];
+      // SAISON
+      const cellSeason = document.createElement("div");
+      cellSeason.classList.add("cell");
+      const seasonColor = compareSeason(guessedAnime.season, targetAnime.season);
+      cellSeason.classList.add(seasonColor);
+      cellSeason.textContent = guessedAnime.season;
+      row.appendChild(cellSeason);
 
-        if (Array.isArray(guessedValue)) guessedValue = guessedValue.join(', ');
-        if (Array.isArray(targetValue)) targetValue = targetValue.join(', ');
+      // STUDIO
+      const cellStudio = document.createElement("div");
+      cellStudio.classList.add("cell");
+      if (guessedAnime.studio.toLowerCase() === targetAnime.studio.toLowerCase()) {
+        cellStudio.classList.add("green");
+      } else {
+        cellStudio.classList.add("red");
+      }
+      cellStudio.textContent = guessedAnime.studio;
+      row.appendChild(cellStudio);
 
-        if (key !== "score") {
-          const isMatch = guessedValue === targetValue;
-          cell.classList.add(isMatch ? "green" : "red");
-          cell.textContent = guessedValue;
-        } else {
-          const guessedScore = parseFloat(guessedAnime.score);
-          const targetScore = parseFloat(targetAnime.score);
-          if (guessedScore === targetScore) {
-            cell.classList.add("green");
-            cell.textContent = guessedScore;
-          } else {
-            const direction = guessedScore < targetScore ? "🔼" : "🔽";
-            cell.textContent = `${guessedScore} ${direction}`;
-          }
-        }
+      // GENRE (liste)
+      const cellGenre = document.createElement("div");
+      cellGenre.classList.add("cell");
+      const genreColor = compareLists(guessedAnime.genre, targetAnime.genre);
+      cellGenre.classList.add(genreColor);
+      cellGenre.textContent = guessedAnime.genre.join(", ");
+      row.appendChild(cellGenre);
 
-        row.appendChild(cell);
-      });
+      // THEME (liste)
+      const cellTheme = document.createElement("div");
+      cellTheme.classList.add("cell");
+      const themeColor = compareLists(guessedAnime.theme, targetAnime.theme);
+      cellTheme.classList.add(themeColor);
+      cellTheme.textContent = guessedAnime.theme.join(", ");
+      row.appendChild(cellTheme);
+
+      // SCORE
+      const cellScore = document.createElement("div");
+      cellScore.classList.add("cell");
+      const guessedScore = parseFloat(guessedAnime.score);
+      const targetScore = parseFloat(targetAnime.score);
+      if (guessedScore === targetScore) {
+        cellScore.classList.add("green");
+        cellScore.textContent = guessedScore;
+      } else {
+        const direction = guessedScore < targetScore ? "🔼" : "🔽";
+        cellScore.textContent = `${guessedScore} ${direction}`;
+      }
+      row.appendChild(cellScore);
 
       results.appendChild(row);
+
       document.getElementById("animeInput").value = "";
       document.getElementById("suggestions").innerHTML = "";
 
-      if (guessedAnime.title === targetAnime.title) {
+      if (guessedAnime.title.toLowerCase() === targetAnime.title.toLowerCase()) {
         gameOver = true;
         document.getElementById("animeInput").disabled = true;
         const message = document.createElement("div");
         message.id = "winMessage";
-        message.innerHTML = `🎆 <span style="font-size:2rem;">🥳</span> Bravo ! C'était <u>${targetAnime.title}</u> en ${attemptCount} tentative${attemptCount > 1 ? 's' : ''}. <span style="font-size:2rem;">🎉</span>`;
+        message.innerHTML = `🎆 <span style="font-size:2rem;">🥳</span> Bravo ! C'était <u>${targetAnime.title}</u> en ${attemptCount} tentative${attemptCount > 1 ? "s" : ""}. <span style="font-size:2rem;">🎉</span>`;
         document.getElementById("results").appendChild(message);
         launchFireworks();
       }
@@ -197,6 +250,7 @@
       location.reload();
     }
 
+    // Feux d'artifice basiques avec canvas
     function launchFireworks() {
       const canvas = document.getElementById("fireworks");
       const ctx = canvas.getContext("2d");
@@ -248,3 +302,4 @@
   </script>
 </body>
 </html>
+
