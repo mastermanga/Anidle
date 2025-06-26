@@ -196,21 +196,39 @@
         } else if (key === "score") {
           const g = parseFloat(guessedAnime.score);
           const t = parseFloat(targetAnime.score);
-          if (g === t) cell.classList.add("green");
-          else cell.textContent = `${g} ${g < t ? "🔼" : "🔽"}`;
-          if (g === t) cell.textContent = g;
+          if (g === t) {
+            cell.classList.add("green");
+            cell.textContent = `✅ ${g}`;
+          } else {
+            cell.classList.add("red");
+            cell.textContent = g < t ? `🔼 ${g}` : `${g} 🔽`;
+          }
         } else if (key === "season") {
           const [gs, gy] = guessedAnime.season.split(" ");
           const [ts, ty] = targetAnime.season.split(" ");
-          if (gs === ts && gy === ty) cell.classList.add("green");
-          else if (gy === ty) cell.classList.add("orange");
-          else cell.classList.add("red");
-          cell.textContent = guessedAnime.season;
+          const guessYear = parseInt(gy);
+          const targetYear = parseInt(ty);
+          if (gs === ts && gy === ty) {
+            cell.classList.add("green");
+            cell.textContent = `✅ ${guessedAnime.season}`;
+          } else if (gy === ty) {
+            cell.classList.add("orange");
+            cell.textContent = `🟧 ${guessedAnime.season}`;
+          } else {
+            cell.classList.add("red");
+            cell.textContent = guessYear < targetYear
+              ? `🔼 ${guessedAnime.season}`
+              : `${guessedAnime.season} 🔽`;
+          }
         } else if (key === "genres" || key === "themes") {
           const matches = guessedAnime[key].filter(x => targetAnime[key].includes(x));
-          if (matches.length === guessedAnime[key].length && matches.length === targetAnime[key].length) cell.classList.add("green");
-          else if (matches.length > 0) cell.classList.add("orange");
-          else cell.classList.add("red");
+          if (matches.length === guessedAnime[key].length && matches.length === targetAnime[key].length) {
+            cell.classList.add("green");
+          } else if (matches.length > 0) {
+            cell.classList.add("orange");
+          } else {
+            cell.classList.add("red");
+          }
           cell.innerHTML = guessedAnime[key].join("<br>");
         } else {
           const isMatch = guessedAnime[key] === targetAnime[key];
@@ -221,7 +239,6 @@
         row.appendChild(cell);
       });
 
-      // Ajouter au début (pour que la dernière tentative soit en haut)
       const header = results.querySelector(".row");
       results.insertBefore(row, header.nextSibling);
 
@@ -269,7 +286,6 @@
       function animate() {
         ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
         ctx.fillRect(0, 0, canvas.width, canvas.height);
-
         particles.forEach(p => {
           ctx.beginPath();
           ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
@@ -280,11 +296,9 @@
           p.dy += 0.05;
           p.life--;
         });
-
         for (let i = particles.length - 1; i >= 0; i--) {
           if (particles[i].life <= 0) particles.splice(i, 1);
         }
-
         if (particles.length > 0) requestAnimationFrame(animate);
         else ctx.clearRect(0, 0, canvas.width, canvas.height);
       }
@@ -294,6 +308,7 @@
   </script>
 </body>
 </html>
+
 
 
 
