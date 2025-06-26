@@ -1,75 +1,238 @@
-function guessAnime() {
-  if (gameOver) return;
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Animedle</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      text-align: center;
+      padding: 20px;
+    }
+    .input-container {
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      font-size: 16px;
+      width: 300px;
+      border-radius: 5px;
+      border: none;
+    }
+    .suggestions {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      max-width: 300px;
+      margin: 0 auto 10px;
+      text-align: left;
+    }
+    .suggestions div {
+      padding: 8px;
+      cursor: pointer;
+    }
+    .suggestions div:hover {
+      background-color: #333;
+    }
+    .row {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 5px;
+    }
+    .cell {
+      padding: 8px;
+      margin: 2px;
+      min-width: 100px;
+      border-radius: 4px;
+      background-color: #2a2a2a;
+      border: 1px solid #444;
+    }
+    .green {
+      background-color: #4caf50 !important;
+      color: white;
+    }
+    .red {
+      background-color: #f44336 !important;
+      color: white;
+    }
+    #winMessage {
+      margin-top: 20px;
+      font-size: 20px;
+    }
+    #fireworks {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100vw;
+      pointer-events: none;
+      z-index: 1000;
+    }
+  </style>
+</head>
+<body>
+  <h1>Animedle 🎮</h1>
+  <div class="input-container">
+    <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime...">
+    <div id="suggestions" class="suggestions"></div>
+    <div id="counter">Tentatives : 0</div>
+  </div>
+  <div id="results"></div>
+  <button onclick="resetGame()">🔄 Rejouer</button>
+  <canvas id="fireworks"></canvas>
 
-  const input = document.getElementById("animeInput").value.trim();
-  const guessedAnime = animeData.find(a => a.title.toLowerCase() === input.toLowerCase());
+  <script>
+    let animeData = [];
+    let targetAnime = null;
+    let attemptCount = 0;
+    let gameOver = false;
 
-  if (!guessedAnime) {
-    alert("Anime non trouvé !");
-    return;
-  }
+    fetch('animes.json')
+      .then(response => response.json())
+      .then(data => {
+        animeData = data;
+        targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
+        console.log("Réponse secrète:", targetAnime); // pour debug
+      });
 
-  attemptCount++;
-  document.getElementById("counter").textContent = "Tentatives : " + attemptCount;
-
-  const results = document.getElementById("results");
-
-  // Ajouter l'en-tête une seule fois
-  if (attemptCount === 1) {
-    const header = document.createElement("div");
-    header.classList.add("row");
-    ["Titre", "Saison", "Studio", "Genre", "Thème", "Score"].forEach(label => {
-      const cell = document.createElement("div");
-      cell.classList.add("cell");
-      cell.style.fontWeight = "bold";
-      cell.textContent = label;
-      header.appendChild(cell);
+    document.getElementById("animeInput").addEventListener("input", function() {
+      const input = this.value.toLowerCase();
+      const matches = animeData.filter(a => a.title.toLowerCase().includes(input)).slice(0, 5);
+      const suggestions = document.getElementById("suggestions");
+      suggestions.innerHTML = "";
+      matches.forEach(anime => {
+        const div = document.createElement("div");
+        div.textContent = anime.title;
+        div.onclick = () => {
+          document.getElementById("animeInput").value = anime.title;
+          suggestions.innerHTML = "";
+          guessAnime();
+        };
+        suggestions.appendChild(div);
+      });
     });
-    results.appendChild(header);
-  }
 
-  const row = document.createElement('div');
-  row.classList.add('row');
+    function guessAnime() {
+      if (gameOver) return;
+      const input = document.getElementById("animeInput").value.trim();
+      const guessedAnime = animeData.find(a => a.title.toLowerCase() === input.toLowerCase());
 
-  ['title', 'season', 'studio', 'genre', 'theme', 'score'].forEach(key => {
-    const cell = document.createElement('div');
-    cell.classList.add('cell');
+      if (!guessedAnime) {
+        alert("Anime non trouvé !");
+        return;
+      }
 
-    if (key !== 'score') {
-      const isMatch = guessedAnime[key] === targetAnime[key];
-      cell.classList.add(isMatch ? 'green' : 'red');
-      cell.textContent = guessedAnime[key];
-    } else {
-      const guessedScore = parseFloat(guessedAnime.score);
-      const targetScore = parseFloat(targetAnime.score);
+      attemptCount++;
+      document.getElementById("counter").textContent = "Tentatives : " + attemptCount;
+      const results = document.getElementById("results");
 
-      if (guessedScore === targetScore) {
-        cell.classList.add('green');
-        cell.textContent = guessedScore;
-      } else {
-        const direction = guessedScore < targetScore ? "🔼" : "🔽";
-        cell.textContent = `${guessedScore} ${direction}`;
+      if (attemptCount === 1) {
+        const header = document.createElement("div");
+        header.classList.add("row");
+        ["Titre", "Saison", "Studio", "Genre", "Thème", "Score"].forEach(label => {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+          cell.style.fontWeight = "bold";
+          cell.textContent = label;
+          header.appendChild(cell);
+        });
+        results.appendChild(header);
+      }
+
+      const row = document.createElement("div");
+      row.classList.add("row");
+
+      ["title", "season", "studio", "genre", "theme", "score"].forEach(key => {
+        const cell = document.createElement("div");
+        cell.classList.add("cell");
+
+        if (key !== "score") {
+          const isMatch = guessedAnime[key] === targetAnime[key];
+          cell.classList.add(isMatch ? "green" : "red");
+          cell.textContent = guessedAnime[key];
+        } else {
+          const guessedScore = parseFloat(guessedAnime.score);
+          const targetScore = parseFloat(targetAnime.score);
+          if (guessedScore === targetScore) {
+            cell.classList.add("green");
+            cell.textContent = guessedScore;
+          } else {
+            const direction = guessedScore < targetScore ? "🔼" : "🔽";
+            cell.textContent = `${guessedScore} ${direction}`;
+          }
+        }
+        row.appendChild(cell);
+      });
+
+      results.appendChild(row);
+      document.getElementById("animeInput").value = "";
+      document.getElementById("suggestions").innerHTML = "";
+
+      if (guessedAnime.title === targetAnime.title) {
+        gameOver = true;
+        document.getElementById("animeInput").disabled = true;
+        const message = document.createElement("div");
+        message.id = "winMessage";
+        message.innerHTML = `🎆 <span style="font-size:2rem;">🥳</span> Bravo ! C'était <u>${targetAnime.title}</u> en ${attemptCount} tentative${attemptCount > 1 ? 's' : ''}. <span style="font-size:2rem;">🎉</span>`;
+        document.getElementById("results").appendChild(message);
+        launchFireworks();
       }
     }
 
-    row.appendChild(cell);
-  });
+    function resetGame() {
+      location.reload();
+    }
 
-  results.appendChild(row);
-  document.getElementById("animeInput").value = "";
-  document.getElementById("suggestions").innerHTML = "";
+    // Feux d'artifice basiques avec canvas
+    function launchFireworks() {
+      const canvas = document.getElementById("fireworks");
+      const ctx = canvas.getContext("2d");
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      const particles = [];
 
-  if (guessedAnime.title === targetAnime.title) {
-    gameOver = true;
-    document.getElementById("animeInput").disabled = true;
+      function createParticle(x, y) {
+        const angle = Math.random() * 2 * Math.PI;
+        const speed = Math.random() * 5 + 2;
+        return {
+          x,
+          y,
+          dx: Math.cos(angle) * speed,
+          dy: Math.sin(angle) * speed,
+          life: 60
+        };
+      }
 
-    const message = document.createElement("div");
-    message.id = "winMessage";
-    message.innerHTML = `🎆 <span style="font-size:2rem;">🥳</span> Bravo ! C'était <u>${targetAnime.title}</u> en ${attemptCount} tentative${attemptCount > 1 ? 's' : ''}. <span style="font-size:2rem;">🎉</span>`;
-    document.getElementById("results").appendChild(message);
-    launchFireworks();
-  }
-}
+      for (let i = 0; i < 100; i++) {
+        particles.push(createParticle(canvas.width / 2, canvas.height / 2));
+      }
 
+      function animate() {
+        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(p => {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+          ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
+          ctx.fill();
+          p.x += p.dx;
+          p.y += p.dy;
+          p.dy += 0.05;
+          p.life--;
+        });
+
+        for (let i = particles.length - 1; i >= 0; i--) {
+          if (particles[i].life <= 0) particles.splice(i, 1);
+        }
+
+        if (particles.length > 0) requestAnimationFrame(animate);
+        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+
+      animate();
+    }
+  </script>
+</body>
 </html>
-
