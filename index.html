@@ -92,7 +92,7 @@
         <th>Titre</th>
         <th>Saison</th>
         <th>Studio</th>
-        <th>Genres</th>
+        <th>s</th>
         <th>Thèmes</th>
         <th>Score</th>
       </tr>
@@ -191,19 +191,19 @@
       cellStudio.textContent = guessedAnime.studio;
       row.appendChild(cellStudio);
 
-      // Genres
-      const cellGenre = document.createElement("td");
-      const genreColor = compareLists(guessedAnime.genres, targetAnime.genres);
-      cellGenre.classList.add(genreColor);
-      cellGenre.textContent = guessedAnime.genres.join(", ");
-      row.appendChild(cellGenre);
+      // s
+      const cell = document.createElement("td");
+      const Color = compareLists(guessedAnime.s, targetAnime.s);
+      cell.classList.add(genresColor);
+      cellGenres.textContent = guessedAnime.genres.join(", ");
+      row.appendChild(cellGenres);
 
       // Thèmes
-      const cellTheme = document.createElement("td");
+      const cellThemes = document.createElement("td");
       const themeColor = compareLists(guessedAnime.themes, targetAnime.themes);
-      cellTheme.classList.add(themeColor);
-      cellTheme.textContent = guessedAnime.themes.join(", ");
-      row.appendChild(cellTheme);
+      cellThemes.classList.add(themesColor);
+      cellThemes.textContent = guessedAnime.themes.join(", ");
+      row.appendChild(cellThemes);
 
       // Score
       const cellScore = document.createElement("td");
