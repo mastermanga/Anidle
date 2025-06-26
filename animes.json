@@ -1,0 +1,162 @@
+[
+  {
+    "title": "Attack on Titan",
+    "season": "2013",
+    "studio": "Wit Studio",
+    "genre": "Action",
+    "theme": "Military",
+    "score": "8.5"
+  },
+  {
+    "title": "Fullmetal Alchemist: Brotherhood",
+    "season": "2009",
+    "studio": "Bones",
+    "genre": "Action",
+    "theme": "Alchemy",
+    "score": "9.2"
+  },
+  {
+    "title": "Death Note",
+    "season": "2006",
+    "studio": "Madhouse",
+    "genre": "Thriller",
+    "theme": "Psychological",
+    "score": "8.6"
+  },
+  {
+    "title": "My Hero Academia",
+    "season": "2016",
+    "studio": "Bones",
+    "genre": "Action",
+    "theme": "Super Power",
+    "score": "8.0"
+  },
+  {
+    "title": "One Punch Man",
+    "season": "2015",
+    "studio": "Madhouse",
+    "genre": "Action",
+    "theme": "Parody",
+    "score": "8.4"
+  },
+  {
+    "title": "Steins;Gate",
+    "season": "2011",
+    "studio": "White Fox",
+    "genre": "Sci-Fi",
+    "theme": "Time Travel",
+    "score": "9.1"
+  },
+  {
+    "title": "Tokyo Ghoul",
+    "season": "2014",
+    "studio": "Pierrot",
+    "genre": "Horror",
+    "theme": "Supernatural",
+    "score": "7.8"
+  },
+  {
+    "title": "Naruto",
+    "season": "2002",
+    "studio": "Pierrot",
+    "genre": "Action",
+    "theme": "Ninja",
+    "score": "7.9"
+  },
+  {
+    "title": "Demon Slayer",
+    "season": "2019",
+    "studio": "ufotable",
+    "genre": "Action",
+    "theme": "Demons",
+    "score": "8.6"
+  },
+  {
+    "title": "Jujutsu Kaisen",
+    "season": "2020",
+    "studio": "MAPPA",
+    "genre": "Action",
+    "theme": "Supernatural",
+    "score": "8.5"
+  },
+  {
+    "title": "Your Name",
+    "season": "2016",
+    "studio": "CoMix Wave Films",
+    "genre": "Drama",
+    "theme": "Romance",
+    "score": "8.9"
+  },
+  {
+    "title": "Violet Evergarden",
+    "season": "2018",
+    "studio": "Kyoto Animation",
+    "genre": "Drama",
+    "theme": "Slice of Life",
+    "score": "8.7"
+  },
+  {
+    "title": "Mob Psycho 100",
+    "season": "2016",
+    "studio": "Bones",
+    "genre": "Action",
+    "theme": "Supernatural",
+    "score": "8.5"
+  },
+  {
+    "title": "Erased",
+    "season": "2016",
+    "studio": "A-1 Pictures",
+    "genre": "Mystery",
+    "theme": "Time Travel",
+    "score": "8.4"
+  },
+  {
+    "title": "Code Geass",
+    "season": "2006",
+    "studio": "Sunrise",
+    "genre": "Action",
+    "theme": "Mecha",
+    "score": "8.8"
+  },
+  {
+    "title": "Re:Zero",
+    "season": "2016",
+    "studio": "White Fox",
+    "genre": "Fantasy",
+    "theme": "Isekai",
+    "score": "8.3"
+  },
+  {
+    "title": "Sword Art Online",
+    "season": "2012",
+    "studio": "A-1 Pictures",
+    "genre": "Action",
+    "theme": "Virtual World",
+    "score": "7.6"
+  },
+  {
+    "title": "Black Clover",
+    "season": "2017",
+    "studio": "Pierrot",
+    "genre": "Action",
+    "theme": "Magic",
+    "score": "7.7"
+  },
+  {
+    "title": "One Piece",
+    "season": "1999",
+    "studio": "Toei Animation",
+    "genre": "Adventure",
+    "theme": "Pirates",
+    "score": "8.7"
+  },
+  {
+    "title": "Haikyuu!!",
+    "season": "2014",
+    "studio": "Production I.G",
+    "genre": "Sports",
+    "theme": "Volleyball",
+    "score": "8.6"
+  }
+]
