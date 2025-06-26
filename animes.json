@@ -65,7 +65,7 @@
   {
     "title": "One Piece",
     "image": "https://cdn.myanimelist.net/images/anime/1770/97704l.jpg",
-    "season": "Unknown",
+    "season": "fall 1999",
     "studio": "Toei Animation",
     "genres": [
       "Action",
@@ -223,15 +223,6 @@
     "score": 8.75
   },
   {
-    "title": "Spirited Away",
-    "image": "https://cdn.myanimelist.net/images/anime/6/79597l.jpg",
-    "season": "Unknown",
-    "studio": "Unknown",
-    "genres": [],
-    "themes": [],
-    "score": 0.0
-  },
-  {
     "title": "Jujutsu Kaisen",
     "image": "https://cdn.myanimelist.net/images/anime/1171/109222l.jpg",
     "season": "fall 2020",
@@ -304,7 +295,7 @@
   {
     "title": "Your Name",
     "image": "https://cdn.myanimelist.net/images/anime/5/87048l.jpg",
-    "season": "Unknown",
+    "season": "summer 2016",
     "studio": "CoMix Wave Films",
     "genres": [
       "Award Winning",
@@ -312,15 +303,6 @@
     ],
     "themes": [],
     "score": 8.83
-  },
-  {
-    "title": "Clannad",
-    "image": "https://cdn.myanimelist.net/images/anime/1804/95033l.jpg",
-    "season": "Unknown",
-    "studio": "Unknown",
-    "genres": [],
-    "themes": [],
-    "score": 0.0
   },
   {
     "title": "Sailor Moon",
@@ -408,15 +390,6 @@
     "score": 8.63
   },
   {
-    "title": "Black Clover",
-    "image": "https://cdn.myanimelist.net/images/anime/2/88336l.jpg",
-    "season": "Unknown",
-    "studio": "Unknown",
-    "genres": [],
-    "themes": [],
-    "score": 0.0
-  },
-  {
     "title": "The Promised Neverland",
     "image": "https://cdn.myanimelist.net/images/anime/1830/118780l.jpg",
     "season": "winter 2019",
@@ -447,7 +420,7 @@
   {
     "title": "JoJo\u2019s Bizarre Adventure",
     "image": "https://cdn.myanimelist.net/images/anime/8/53147l.jpg",
-    "season": "Unknown",
+    "season": "spring 2000",
     "studio": "APPP",
     "genres": [
       "Action",
@@ -510,7 +483,7 @@
   {
     "title": "A Silent Voice",
     "image": "https://cdn.myanimelist.net/images/anime/1122/96435l.jpg",
-    "season": "Unknown",
+    "season": "fall 2016",
     "studio": "Kyoto Animation",
     "genres": [
       "Award Winning",
@@ -518,15 +491,6 @@
     ],
     "themes": [],
     "score": 8.93
-  },
-  {
-    "title": "K-On!",
-    "image": "https://cdn.myanimelist.net/images/anime/10/76120l.jpg",
-    "season": "Unknown",
-    "studio": "Unknown",
-    "genres": [],
-    "themes": [],
-    "score": 0.0
   },
   {
     "title": "Monogatari Series",
@@ -610,15 +574,6 @@
       "Psychological"
     ],
     "score": 6.33
-  },
-  {
-    "title": "Trigun",
-    "image": "https://cdn.myanimelist.net/images/anime/1130/120002l.jpg",
-    "season": "Unknown",
-    "studio": "Unknown",
-    "genres": [],
-    "themes": [],
-    "score": 0.0
   },
   {
     "title": "Gurren Lagann",
@@ -2922,7 +2877,7 @@
   {
     "title": "Pluto",
     "image": "https://cdn.myanimelist.net/images/anime/1021/138568l.jpg",
-    "season": "Unknown",
+    "season": "fall 2023",
     "studio": "Studio M2",
     "genres": [
       "Action",
@@ -2939,7 +2894,7 @@
   {
     "title": "Cyberpunk: Edgerunners",
     "image": "https://cdn.myanimelist.net/images/anime/1818/126435l.jpg",
-    "season": "Unknown",
+    "season": "fall 2022",
     "studio": "Trigger",
     "genres": [
       "Action",
@@ -2981,7 +2936,7 @@
   {
     "title": "To Be Hero X",
     "image": "https://cdn.myanimelist.net/images/anime/1232/148474l.jpg",
-    "season": "Unknown",
+    "season": "spring 2025",
     "studio": "Pb Animation Co. Ltd.",
     "genres": [
       "Action"
