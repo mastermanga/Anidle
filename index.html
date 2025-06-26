@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -18,11 +18,42 @@
       margin-bottom: 10px;
     }
 
-    input, button {
+    #searchBox {
+      position: relative;
+      display: inline-block;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 1rem;
+      width: 250px;
+    }
+
+    #suggestions {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: white;
+      border: 1px solid #ccc;
+      max-height: 150px;
+      overflow-y: auto;
+      z-index: 10;
+    }
+
+    #suggestions div {
+      padding: 8px;
+      cursor: pointer;
+    }
+
+    #suggestions div:hover {
+      background-color: #eee;
+    }
+
+    button {
       padding: 10px;
       font-size: 1rem;
       margin: 10px;
-      width: 250px;
     }
 
     #results {
@@ -55,26 +86,66 @@
       background-color: #F44336;
       color: white;
     }
+
+    #counter {
+      font-weight: bold;
+      margin-top: 10px;
+    }
   </style>
 </head>
 <body>
   <h1>Animedle 🎌</h1>
   <p>Devine l'anime mystère !</p>
-  <input type="text" id="animeInput" placeholder="Entre un nom d'anime..." />
+
+  <div id="searchBox">
+    <input type="text" id="animeInput" placeholder="Rechercher un anime..." oninput="showSuggestions()" autocomplete="off"/>
+    <div id="suggestions"></div>
+  </div>
+
   <button onclick="guessAnime()">Deviner</button>
+  <button onclick="resetGame()">🔁 Rejouer</button>
+  <div id="counter">Tentatives : 0</div>
   <div id="results"></div>
 
   <script>
     let animeData = [];
     let targetAnime;
+    let attemptCount = 0;
+    let suggestionsDiv = document.getElementById("suggestions");
 
     fetch('animes.json')
       .then(res => res.json())
       .then(data => {
         animeData = data;
-        targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
-        console.log("Anime à deviner :", targetAnime); // à retirer en prod
+        startNewGame();
       });
+
+    function startNewGame() {
+      targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
+      attemptCount = 0;
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("counter").textContent = "Tentatives : 0";
+      console.log("Nouvel anime mystère :", targetAnime); // à désactiver en production
+    }
+
+    function showSuggestions() {
+      const input = document.getElementById("animeInput").value.toLowerCase();
+      suggestionsDiv.innerHTML = "";
+
+      if (input.length === 0) return;
+
+      const matches = animeData.filter(anime => anime.title.toLowerCase().includes(input));
+
+      matches.forEach(anime => {
+        const div = document.createElement("div");
+        div.textContent = anime.title;
+        div.onclick = () => {
+          document.getElementById("animeInput").value = anime.title;
+          suggestionsDiv.innerHTML = "";
+        };
+        suggestionsDiv.appendChild(div);
+      });
+    }
 
     function guessAnime() {
       const input = document.getElementById('animeInput').value.trim();
@@ -85,8 +156,10 @@
         return;
       }
 
+      attemptCount++;
+      document.getElementById("counter").textContent = "Tentatives : " + attemptCount;
+
       const resultDiv = document.getElementById('results');
-      resultDiv.innerHTML = "";
 
       const row = document.createElement('div');
       row.classList.add('row');
@@ -103,6 +176,15 @@
       });
 
       resultDiv.appendChild(row);
+
+      document.getElementById("animeInput").value = "";
+      suggestionsDiv.innerHTML = "";
+    }
+
+    function resetGame() {
+      startNewGame();
+      document.getElementById("animeInput").value = "";
+      suggestionsDiv.innerHTML = "";
     }
   </script>
 </body>
