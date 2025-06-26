@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Animedle 🎮</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 1rem;
+      margin: 10px;
+      width: 250px;
+    }
+
+    #results {
+      margin-top: 20px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: center;
+      margin: 10px 0;
+      flex-wrap: wrap;
+    }
+
+    .cell {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 2px;
+      width: 140px;
+      text-align: center;
+      font-weight: bold;
+      border-radius: 5px;
+    }
+
+    .green {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .red {
+      background-color: #F44336;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <h1>Animedle 🎌</h1>
+  <p>Devine l'anime mystère !</p>
+  <input type="text" id="animeInput" placeholder="Entre un nom d'anime..." />
+  <button onclick="guessAnime()">Deviner</button>
+  <div id="results"></div>
+
+  <script>
+    let animeData = [];
+    let targetAnime;
+
+    fetch('animes.json')
+      .then(res => res.json())
+      .then(data => {
+        animeData = data;
+        targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
+        console.log("Anime à deviner :", targetAnime); // à retirer en prod
+      });
+
+    function guessAnime() {
+      const input = document.getElementById('animeInput').value.trim();
+      const guessedAnime = animeData.find(a => a.title.toLowerCase() === input.toLowerCase());
+
+      if (!guessedAnime) {
+        alert("Anime non trouvé dans la base !");
+        return;
+      }
+
+      const resultDiv = document.getElementById('results');
+      resultDiv.innerHTML = "";
+
+      const row = document.createElement('div');
+      row.classList.add('row');
+
+      ['title', 'season', 'studio', 'genre', 'theme', 'score'].forEach(key => {
+        const cell = document.createElement('div');
+        cell.classList.add('cell');
+
+        const match = guessedAnime[key] === targetAnime[key];
+        cell.classList.add(match ? 'green' : 'red');
+        cell.textContent = guessedAnime[key];
+
+        row.appendChild(cell);
+      });
+
+      resultDiv.appendChild(row);
+    }
+  </script>
+</body>
+</html>
