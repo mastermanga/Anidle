@@ -91,6 +91,13 @@
       font-weight: bold;
       margin-top: 10px;
     }
+
+    #winMessage {
+      margin-top: 20px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: green;
+    }
   </style>
 </head>
 <body>
@@ -111,6 +118,7 @@
     let animeData = [];
     let targetAnime;
     let attemptCount = 0;
+    let gameOver = false;
     let suggestionsDiv = document.getElementById("suggestions");
 
     fetch('animes.json')
@@ -123,12 +131,18 @@
     function startNewGame() {
       targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
       attemptCount = 0;
+      gameOver = false;
       document.getElementById("results").innerHTML = "";
       document.getElementById("counter").textContent = "Tentatives : 0";
-      console.log("Nouvel anime mystère :", targetAnime); // à désactiver en production
+      document.getElementById("animeInput").disabled = false;
+      document.getElementById("animeInput").value = "";
+      document.getElementById("winMessage")?.remove();
+      suggestionsDiv.innerHTML = "";
+      console.log("Nouvel anime mystère :", targetAnime); // À retirer pour la prod
     }
 
     function showSuggestions() {
+      if (gameOver) return;
       const input = document.getElementById("animeInput").value.toLowerCase();
       suggestionsDiv.innerHTML = "";
 
@@ -148,6 +162,8 @@
     }
 
     function guessAnime() {
+      if (gameOver) return;
+
       const input = document.getElementById('animeInput').value.trim();
       const guessedAnime = animeData.find(a => a.title.toLowerCase() === input.toLowerCase());
 
@@ -160,32 +176,37 @@
       document.getElementById("counter").textContent = "Tentatives : " + attemptCount;
 
       const resultDiv = document.getElementById('results');
-
       const row = document.createElement('div');
       row.classList.add('row');
 
       ['title', 'season', 'studio', 'genre', 'theme', 'score'].forEach(key => {
         const cell = document.createElement('div');
         cell.classList.add('cell');
-
         const match = guessedAnime[key] === targetAnime[key];
         cell.classList.add(match ? 'green' : 'red');
         cell.textContent = guessedAnime[key];
-
         row.appendChild(cell);
       });
 
       resultDiv.appendChild(row);
-
       document.getElementById("animeInput").value = "";
       suggestionsDiv.innerHTML = "";
+
+      if (guessedAnime.title === targetAnime.title) {
+        gameOver = true;
+        document.getElementById("animeInput").disabled = true;
+
+        const message = document.createElement("div");
+        message.id = "winMessage";
+        message.innerHTML = `🎉 Bravo ! C'était <u>${targetAnime.title}</u> en ${attemptCount} tentative${attemptCount > 1 ? 's' : ''}.`;
+        resultDiv.appendChild(message);
+      }
     }
 
     function resetGame() {
       startNewGame();
-      document.getElementById("animeInput").value = "";
-      suggestionsDiv.innerHTML = "";
     }
   </script>
 </body>
 </html>
+
