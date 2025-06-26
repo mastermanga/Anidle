@@ -57,9 +57,9 @@
       min-width: 250px;
       max-width: 280px;
     }
-    .cell-genre, .cell-theme {
-      min-width: 200px;
-      max-width: 220px;
+    .cell-tags {
+      min-width: 220px;
+      max-width: 240px;
       text-align: left;
     }
     .cell-studio {
@@ -162,15 +162,14 @@
         title: "cell-title",
         season: "cell-season",
         studio: "cell-studio",
-        genres: "cell-genre",
-        themes: "cell-theme",
+        tags: "cell-tags",
         score: "cell-score"
       };
 
       if (attemptCount === 1) {
         const header = document.createElement("div");
         header.classList.add("row");
-        ["Image", "Titre", "Saison", "Studio", "Genres", "Thèmes", "Score"].forEach((label, i) => {
+        ["Image", "Titre", "Saison", "Studio", "Genres / Thèmes", "Score"].forEach((label, i) => {
           const cell = document.createElement("div");
           cell.classList.add("cell", Object.values(keyToClass)[i]);
           cell.style.fontWeight = "bold";
@@ -183,7 +182,7 @@
       const row = document.createElement("div");
       row.classList.add("row");
 
-      ["image", "title", "season", "studio", "genres", "themes", "score"].forEach(key => {
+      ["image", "title", "season", "studio", "tags", "score"].forEach(key => {
         const cell = document.createElement("div");
         cell.classList.add("cell", keyToClass[key]);
 
@@ -193,6 +192,7 @@
           img.alt = guessedAnime.title;
           img.style.width = "100px";
           cell.appendChild(img);
+
         } else if (key === "score") {
           const g = parseFloat(guessedAnime.score);
           const t = parseFloat(targetAnime.score);
@@ -203,6 +203,7 @@
             cell.classList.add("red");
             cell.textContent = g < t ? `🔼 ${g}` : `${g} 🔽`;
           }
+
         } else if (key === "season") {
           const [gs, gy] = guessedAnime.season.split(" ");
           const [ts, ty] = targetAnime.season.split(" ");
@@ -220,16 +221,21 @@
               ? `🔼 ${guessedAnime.season}`
               : `${guessedAnime.season} 🔽`;
           }
-        } else if (key === "genres" || key === "themes") {
-          const matches = guessedAnime[key].filter(x => targetAnime[key].includes(x));
-          if (matches.length === guessedAnime[key].length && matches.length === targetAnime[key].length) {
+
+        } else if (key === "tags") {
+          const guessedTags = [...new Set([...guessedAnime.genres, ...guessedAnime.themes])];
+          const targetTags = [...new Set([...targetAnime.genres, ...targetAnime.themes])];
+          const matches = guessedTags.filter(tag => targetTags.includes(tag));
+          
+          if (matches.length === guessedTags.length && matches.length === targetTags.length) {
             cell.classList.add("green");
           } else if (matches.length > 0) {
             cell.classList.add("orange");
           } else {
             cell.classList.add("red");
           }
-          cell.innerHTML = guessedAnime[key].join("<br>");
+          cell.innerHTML = guessedTags.join("<br>");
+
         } else {
           const isMatch = guessedAnime[key] === targetAnime[key];
           cell.classList.add(isMatch ? "green" : "red");
