@@ -22,5 +22,141 @@
     "genre": "Action",
     "theme": "Supernatural",
     "score": 8.6
+  },
+  {
+    "title": "Fullmetal Alchemist: Brotherhood",
+    "season": "Spring 2009",
+    "studio": "Bones",
+    "genre": "Action",
+    "theme": "Military",
+    "score": 9.1
+  },
+  {
+    "title": "Death Note",
+    "season": "Fall 2006",
+    "studio": "Madhouse",
+    "genre": "Thriller",
+    "theme": "Psychological",
+    "score": 8.6
+  },
+  {
+    "title": "One Punch Man",
+    "season": "Fall 2015",
+    "studio": "Madhouse",
+    "genre": "Action",
+    "theme": "Parody",
+    "score": 8.5
+  },
+  {
+    "title": "Steins;Gate",
+    "season": "Spring 2011",
+    "studio": "White Fox",
+    "genre": "Sci-Fi",
+    "theme": "Time Travel",
+    "score": 9.1
+  },
+  {
+    "title": "Naruto",
+    "season": "Fall 2002",
+    "studio": "Pierrot",
+    "genre": "Action",
+    "theme": "Martial Arts",
+    "score": 7.9
+  },
+  {
+    "title": "Jujutsu Kaisen",
+    "season": "Fall 2020",
+    "studio": "MAPPA",
+    "genre": "Action",
+    "theme": "Supernatural",
+    "score": 8.6
+  },
+  {
+    "title": "My Hero Academia",
+    "season": "Spring 2016",
+    "studio": "Bones",
+    "genre": "Action",
+    "theme": "Super Power",
+    "score": 7.9
+  },
+  {
+    "title": "Spy x Family",
+    "season": "Spring 2022",
+    "studio": "Wit Studio",
+    "genre": "Action",
+    "theme": "Comedy",
+    "score": 8.5
+  },
+  {
+    "title": "Tokyo Ghoul",
+    "season": "Summer 2014",
+    "studio": "Pierrot",
+    "genre": "Horror",
+    "theme": "Supernatural",
+    "score": 7.8
+  },
+  {
+    "title": "Violet Evergarden",
+    "season": "Winter 2018",
+    "studio": "Kyoto Animation",
+    "genre": "Drama",
+    "theme": "Slice of Life",
+    "score": 8.6
+  },
+  {
+    "title": "Erased",
+    "season": "Winter 2016",
+    "studio": "A-1 Pictures",
+    "genre": "Mystery",
+    "theme": "Time Travel",
+    "score": 8.3
+  },
+  {
+    "title": "Haikyuu!!",
+    "season": "Spring 2014",
+    "studio": "Production I.G",
+    "genre": "Sports",
+    "theme": "Volleyball",
+    "score": 8.5
+  },
+  {
+    "title": "Mob Psycho 100",
+    "season": "Summer 2016",
+    "studio": "Bones",
+    "genre": "Action",
+    "theme": "Supernatural",
+    "score": 8.5
+  },
+  {
+    "title": "Black Clover",
+    "season": "Fall 2017",
+    "studio": "Pierrot",
+    "genre": "Action",
+    "theme": "Magic",
+    "score": 7.9
+  },
+  {
+    "title": "Re:Zero",
+    "season": "Spring 2016",
+    "studio": "White Fox",
+    "genre": "Drama",
+    "theme": "Isekai",
+    "score": 8.3
+  },
+  {
+    "title": "The Promised Neverland",
+    "season": "Winter 2019",
+    "studio": "CloverWorks",
+    "genre": "Mystery",
+    "theme": "Survival",
+    "score": 8.5
+  },
+  {
+    "title": "Made in Abyss",
+    "season": "Summer 2017",
+    "studio": "Kinema Citrus",
+    "genre": "Adventure",
+    "theme": "Dark Fantasy",
+    "score": 8.7
   }
 ]
