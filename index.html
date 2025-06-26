@@ -264,7 +264,7 @@
       }
       row.appendChild(cellScore);
 
-      tbody.appendChild(row);
+      tbody.insertBefore(row, tbody.firstChild);
 
       document.getElementById("animeInput").value = "";
       document.getElementById("suggestions").innerHTML = "";
