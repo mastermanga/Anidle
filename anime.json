@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Attack on Titan",
+    "season": "Winter 2013",
+    "studio": "Wit Studio",
+    "genre": "Action",
+    "theme": "Military",
+    "score": 8.5
+  },
+  {
+    "title": "Your Lie in April",
+    "season": "Fall 2014",
+    "studio": "A-1 Pictures",
+    "genre": "Drama",
+    "theme": "Music",
+    "score": 8.7
+  },
+  {
+    "title": "Demon Slayer",
+    "season": "Spring 2019",
+    "studio": "ufotable",
+    "genre": "Action",
+    "theme": "Supernatural",
+    "score": 8.6
+  }
+]
