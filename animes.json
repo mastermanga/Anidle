@@ -1,162 +1,182 @@
 [
   {
     "title": "Attack on Titan",
-    "season": "2013",
+    "season": "winter",
+    "year": 2013,
     "studio": "Wit Studio",
-    "genre": "Action",
-    "theme": "Military",
-    "score": "8.5"
-  },
-  {
-    "title": "Fullmetal Alchemist: Brotherhood",
-    "season": "2009",
-    "studio": "Bones",
-    "genre": "Action",
-    "theme": "Alchemy",
-    "score": "9.2"
-  },
-  {
-    "title": "Death Note",
-    "season": "2006",
-    "studio": "Madhouse",
-    "genre": "Thriller",
-    "theme": "Psychological",
-    "score": "8.6"
+    "genre": ["Action", "Drama"],
+    "theme": ["Military", "Survival"],
+    "score": 9.0
   },
   {
     "title": "My Hero Academia",
-    "season": "2016",
+    "season": "spring",
+    "year": 2016,
     "studio": "Bones",
-    "genre": "Action",
-    "theme": "Super Power",
-    "score": "8.0"
-  },
-  {
-    "title": "One Punch Man",
-    "season": "2015",
-    "studio": "Madhouse",
-    "genre": "Action",
-    "theme": "Parody",
-    "score": "8.4"
-  },
-  {
-    "title": "Steins;Gate",
-    "season": "2011",
-    "studio": "White Fox",
-    "genre": "Sci-Fi",
-    "theme": "Time Travel",
-    "score": "9.1"
-  },
-  {
-    "title": "Tokyo Ghoul",
-    "season": "2014",
-    "studio": "Pierrot",
-    "genre": "Horror",
-    "theme": "Supernatural",
-    "score": "7.8"
-  },
-  {
-    "title": "Naruto",
-    "season": "2002",
-    "studio": "Pierrot",
-    "genre": "Action",
-    "theme": "Ninja",
-    "score": "7.9"
-  },
-  {
-    "title": "Demon Slayer",
-    "season": "2019",
-    "studio": "ufotable",
-    "genre": "Action",
-    "theme": "Demons",
-    "score": "8.6"
-  },
-  {
-    "title": "Jujutsu Kaisen",
-    "season": "2020",
-    "studio": "MAPPA",
-    "genre": "Action",
-    "theme": "Supernatural",
-    "score": "8.5"
-  },
-  {
-    "title": "Your Name",
-    "season": "2016",
-    "studio": "CoMix Wave Films",
-    "genre": "Drama",
-    "theme": "Romance",
-    "score": "8.9"
+    "genre": ["Action", "Super Power"],
+    "theme": ["School", "Superhero"],
+    "score": 8.2
   },
   {
     "title": "Violet Evergarden",
-    "season": "2018",
+    "season": "winter",
+    "year": 2018,
     "studio": "Kyoto Animation",
-    "genre": "Drama",
-    "theme": "Slice of Life",
-    "score": "8.7"
+    "genre": ["Drama", "Fantasy"],
+    "theme": ["Emotional", "Post-War"],
+    "score": 8.7
+  },
+  {
+    "title": "Jujutsu Kaisen",
+    "season": "fall",
+    "year": 2020,
+    "studio": "MAPPA",
+    "genre": ["Action", "Supernatural"],
+    "theme": ["Curse", "School"],
+    "score": 8.6
+  },
+  {
+    "title": "Demon Slayer",
+    "season": "spring",
+    "year": 2019,
+    "studio": "ufotable",
+    "genre": ["Action", "Historical"],
+    "theme": ["Demons", "Swordplay"],
+    "score": 8.7
+  },
+  {
+    "title": "Fullmetal Alchemist: Brotherhood",
+    "season": "spring",
+    "year": 2009,
+    "studio": "Bones",
+    "genre": ["Action", "Adventure"],
+    "theme": ["Alchemy", "Military"],
+    "score": 9.1
+  },
+  {
+    "title": "Death Note",
+    "season": "fall",
+    "year": 2006,
+    "studio": "Madhouse",
+    "genre": ["Mystery", "Supernatural"],
+    "theme": ["Psychological", "Crime"],
+    "score": 8.6
+  },
+  {
+    "title": "Your Lie in April",
+    "season": "fall",
+    "year": 2014,
+    "studio": "A-1 Pictures",
+    "genre": ["Drama", "Romance"],
+    "theme": ["Music", "Tragedy"],
+    "score": 8.7
   },
   {
     "title": "Mob Psycho 100",
-    "season": "2016",
+    "season": "summer",
+    "year": 2016,
     "studio": "Bones",
-    "genre": "Action",
-    "theme": "Supernatural",
-    "score": "8.5"
+    "genre": ["Action", "Comedy"],
+    "theme": ["Psychic Powers", "Supernatural"],
+    "score": 8.6
+  },
+  {
+    "title": "Steins;Gate",
+    "season": "spring",
+    "year": 2011,
+    "studio": "White Fox",
+    "genre": ["Sci-Fi", "Thriller"],
+    "theme": ["Time Travel", "Psychological"],
+    "score": 9.1
+  },
+  {
+    "title": "Tokyo Ghoul",
+    "season": "summer",
+    "year": 2014,
+    "studio": "Studio Pierrot",
+    "genre": ["Action", "Horror"],
+    "theme": ["Gore", "Supernatural"],
+    "score": 7.8
+  },
+  {
+    "title": "One Punch Man",
+    "season": "fall",
+    "year": 2015,
+    "studio": "Madhouse",
+    "genre": ["Action", "Comedy"],
+    "theme": ["Parody", "Superhero"],
+    "score": 8.5
   },
   {
     "title": "Erased",
-    "season": "2016",
+    "season": "winter",
+    "year": 2016,
     "studio": "A-1 Pictures",
-    "genre": "Mystery",
-    "theme": "Time Travel",
-    "score": "8.4"
-  },
-  {
-    "title": "Code Geass",
-    "season": "2006",
-    "studio": "Sunrise",
-    "genre": "Action",
-    "theme": "Mecha",
-    "score": "8.8"
+    "genre": ["Mystery", "Psychological"],
+    "theme": ["Time Travel", "Tragedy"],
+    "score": 8.3
   },
   {
     "title": "Re:Zero",
-    "season": "2016",
+    "season": "spring",
+    "year": 2016,
     "studio": "White Fox",
-    "genre": "Fantasy",
-    "theme": "Isekai",
-    "score": "8.3"
+    "genre": ["Action", "Drama"],
+    "theme": ["Isekai", "Time Loop"],
+    "score": 8.3
   },
   {
-    "title": "Sword Art Online",
-    "season": "2012",
+    "title": "Chainsaw Man",
+    "season": "fall",
+    "year": 2022,
+    "studio": "MAPPA",
+    "genre": ["Action", "Horror"],
+    "theme": ["Demons", "Dark Fantasy"],
+    "score": 8.4
+  },
+  {
+    "title": "Spy x Family",
+    "season": "spring",
+    "year": 2022,
+    "studio": "Wit Studio",
+    "genre": ["Action", "Comedy"],
+    "theme": ["Family", "Espionage"],
+    "score": 8.6
+  },
+  {
+    "title": "Noragami",
+    "season": "winter",
+    "year": 2014,
+    "studio": "Bones",
+    "genre": ["Action", "Adventure"],
+    "theme": ["Supernatural", "Gods"],
+    "score": 7.9
+  },
+  {
+    "title": "The Promised Neverland",
+    "season": "winter",
+    "year": 2019,
+    "studio": "CloverWorks",
+    "genre": ["Mystery", "Horror"],
+    "theme": ["Survival", "Psychological"],
+    "score": 8.5
+  },
+  {
+    "title": "Made in Abyss",
+    "season": "summer",
+    "year": 2017,
+    "studio": "Kinema Citrus",
+    "genre": ["Adventure", "Drama"],
+    "theme": ["Exploration", "Survival"],
+    "score": 8.7
+  },
+  {
+    "title": "Kaguya-sama: Love is War",
+    "season": "winter",
+    "year": 2019,
     "studio": "A-1 Pictures",
-    "genre": "Action",
-    "theme": "Virtual World",
-    "score": "7.6"
-  },
-  {
-    "title": "Black Clover",
-    "season": "2017",
-    "studio": "Pierrot",
-    "genre": "Action",
-    "theme": "Magic",
-    "score": "7.7"
-  },
-  {
-    "title": "One Piece",
-    "season": "1999",
-    "studio": "Toei Animation",
-    "genre": "Adventure",
-    "theme": "Pirates",
-    "score": "8.7"
-  },
-  {
-    "title": "Haikyuu!!",
-    "season": "2014",
-    "studio": "Production I.G",
-    "genre": "Sports",
-    "theme": "Volleyball",
-    "score": "8.6"
+    "genre": ["Comedy", "Romance"],
+    "theme": ["Psychological", "School"],
+    "score": 8.9
   }
 ]
