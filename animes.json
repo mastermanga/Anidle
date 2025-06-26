@@ -1,8 +1,7 @@
 [
   {
     "title": "Attack on Titan",
-    "season": "winter",
-    "year": 2013,
+    "season": "winter 2013",
     "studio": "Wit Studio",
     "genre": ["Action", "Drama"],
     "theme": ["Military", "Survival"],
@@ -10,8 +9,7 @@
   },
   {
     "title": "My Hero Academia",
-    "season": "spring",
-    "year": 2016,
+    "season": "spring 2016",
     "studio": "Bones",
     "genre": ["Action", "Super Power"],
     "theme": ["School", "Superhero"],
@@ -19,8 +17,7 @@
   },
   {
     "title": "Violet Evergarden",
-    "season": "winter",
-    "year": 2018,
+    "season": "winter 2018",
     "studio": "Kyoto Animation",
     "genre": ["Drama", "Fantasy"],
     "theme": ["Emotional", "Post-War"],
@@ -28,8 +25,7 @@
   },
   {
     "title": "Jujutsu Kaisen",
-    "season": "fall",
-    "year": 2020,
+    "season": "fall 2020",
     "studio": "MAPPA",
     "genre": ["Action", "Supernatural"],
     "theme": ["Curse", "School"],
@@ -37,8 +33,7 @@
   },
   {
     "title": "Demon Slayer",
-    "season": "spring",
-    "year": 2019,
+    "season": "spring 2019",
     "studio": "ufotable",
     "genre": ["Action", "Historical"],
     "theme": ["Demons", "Swordplay"],
@@ -46,8 +41,7 @@
   },
   {
     "title": "Fullmetal Alchemist: Brotherhood",
-    "season": "spring",
-    "year": 2009,
+    "season": "spring 2009",
     "studio": "Bones",
     "genre": ["Action", "Adventure"],
     "theme": ["Alchemy", "Military"],
@@ -55,8 +49,7 @@
   },
   {
     "title": "Death Note",
-    "season": "fall",
-    "year": 2006,
+    "season": "fall 2006",
     "studio": "Madhouse",
     "genre": ["Mystery", "Supernatural"],
     "theme": ["Psychological", "Crime"],
@@ -64,8 +57,7 @@
   },
   {
     "title": "Your Lie in April",
-    "season": "fall",
-    "year": 2014,
+    "season": "fall 2014",
     "studio": "A-1 Pictures",
     "genre": ["Drama", "Romance"],
     "theme": ["Music", "Tragedy"],
@@ -73,8 +65,7 @@
   },
   {
     "title": "Mob Psycho 100",
-    "season": "summer",
-    "year": 2016,
+    "season": "summer 2016",
     "studio": "Bones",
     "genre": ["Action", "Comedy"],
     "theme": ["Psychic Powers", "Supernatural"],
@@ -82,8 +73,7 @@
   },
   {
     "title": "Steins;Gate",
-    "season": "spring",
-    "year": 2011,
+    "season": "spring 2011",
     "studio": "White Fox",
     "genre": ["Sci-Fi", "Thriller"],
     "theme": ["Time Travel", "Psychological"],
@@ -91,8 +81,7 @@
   },
   {
     "title": "Tokyo Ghoul",
-    "season": "summer",
-    "year": 2014,
+    "season": "summer 2014",
     "studio": "Studio Pierrot",
     "genre": ["Action", "Horror"],
     "theme": ["Gore", "Supernatural"],
@@ -100,8 +89,7 @@
   },
   {
     "title": "One Punch Man",
-    "season": "fall",
-    "year": 2015,
+    "season": "fall 2015",
     "studio": "Madhouse",
     "genre": ["Action", "Comedy"],
     "theme": ["Parody", "Superhero"],
@@ -109,8 +97,7 @@
   },
   {
     "title": "Erased",
-    "season": "winter",
-    "year": 2016,
+    "season": "winter 2016",
     "studio": "A-1 Pictures",
     "genre": ["Mystery", "Psychological"],
     "theme": ["Time Travel", "Tragedy"],
@@ -118,8 +105,7 @@
   },
   {
     "title": "Re:Zero",
-    "season": "spring",
-    "year": 2016,
+    "season": "spring 2016",
     "studio": "White Fox",
     "genre": ["Action", "Drama"],
     "theme": ["Isekai", "Time Loop"],
@@ -127,8 +113,7 @@
   },
   {
     "title": "Chainsaw Man",
-    "season": "fall",
-    "year": 2022,
+    "season": "fall 2022",
     "studio": "MAPPA",
     "genre": ["Action", "Horror"],
     "theme": ["Demons", "Dark Fantasy"],
@@ -136,8 +121,7 @@
   },
   {
     "title": "Spy x Family",
-    "season": "spring",
-    "year": 2022,
+    "season": "spring 2022",
     "studio": "Wit Studio",
     "genre": ["Action", "Comedy"],
     "theme": ["Family", "Espionage"],
@@ -145,8 +129,7 @@
   },
   {
     "title": "Noragami",
-    "season": "winter",
-    "year": 2014,
+    "season": "winter 2014",
     "studio": "Bones",
     "genre": ["Action", "Adventure"],
     "theme": ["Supernatural", "Gods"],
@@ -154,8 +137,7 @@
   },
   {
     "title": "The Promised Neverland",
-    "season": "winter",
-    "year": 2019,
+    "season": "winter 2019",
     "studio": "CloverWorks",
     "genre": ["Mystery", "Horror"],
     "theme": ["Survival", "Psychological"],
@@ -163,8 +145,7 @@
   },
   {
     "title": "Made in Abyss",
-    "season": "summer",
-    "year": 2017,
+    "season": "summer 2017",
     "studio": "Kinema Citrus",
     "genre": ["Adventure", "Drama"],
     "theme": ["Exploration", "Survival"],
@@ -172,11 +153,11 @@
   },
   {
     "title": "Kaguya-sama: Love is War",
-    "season": "winter",
-    "year": 2019,
+    "season": "winter 2019",
     "studio": "A-1 Pictures",
     "genre": ["Comedy", "Romance"],
     "theme": ["Psychological", "School"],
     "score": 8.9
   }
 ]
+
