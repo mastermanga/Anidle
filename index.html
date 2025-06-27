@@ -2,452 +2,246 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Animedle avec Indices + Aide</title>
+  <title>CharaClue - Devine l'anime</title>
   <style>
     body {
       font-family: Arial, sans-serif;
       background-color: #121212;
-      color: #f0f0f0;
+      color: #e0e0e0;
       text-align: center;
       padding: 20px;
     }
-
-    .input-container {
-      margin-bottom: 20px;
+    h1 {
+      color: #ffffff;
     }
-
-    input[type="text"] {
-      padding: 10px;
-      font-size: 16px;
-      width: 300px;
-      border-radius: 5px;
-      border: none;
-    }
-
-    .suggestions {
-      background: #1e1e1e;
-      border: 1px solid #333;
-      max-width: 300px;
-      margin: 0 auto 10px;
-      text-align: left;
-    }
-
-    .suggestions div {
-      padding: 8px;
-      cursor: pointer;
-    }
-
-    .suggestions div:hover {
-      background-color: #333;
-    }
-
-    .row {
+    #character-container {
       display: flex;
-      justify-content: center;
-      margin-bottom: 5px;
       flex-wrap: wrap;
-    }
-
-    .cell {
-      padding: 8px;
-      margin: 2px;
-      border-radius: 4px;
-      background-color: #2a2a2a;
-      border: 1px solid #444;
-      white-space: normal;
-      overflow-wrap: break-word;
-    }
-
-    .cell-image { min-width: 100px; max-width: 100px; }
-    .cell-title { min-width: 250px; max-width: 280px; }
-    .cell-genre, .cell-theme { min-width: 200px; max-width: 220px; text-align: left; }
-    .cell-studio { min-width: 150px; max-width: 160px; }
-    .cell-season { min-width: 120px; max-width: 130px; }
-    .cell-score { min-width: 90px; max-width: 100px; }
-
-    .green { background-color: #4caf50 !important; color: white; }
-    .red { background-color: #f44336 !important; color: white; }
-    .orange { background-color: #ff9800 !important; color: white; }
-
-    #winMessage {
+      justify-content: center;
+      gap: 10px;
       margin-top: 20px;
-      font-size: 20px;
     }
-
-    #fireworks {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      pointer-events: none;
-      z-index: 1000;
+    .character-img {
+      width: 120px;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #444;
+      display: none;
+      background-color: #222;
     }
-
-    #indicesContainer {
-      margin: 20px auto;
-      max-width: 600px;
-      text-align: left;
-      background: #222;
-      padding: 15px;
+    select {
+      padding: 10px;
+      width: 320px;
+      font-size: 16px;
       border-radius: 8px;
-      border: 1px solid #444;
+      border: 1px solid #555;
+      margin-top: 20px;
+      background-color: #222;
+      color: #e0e0e0;
     }
-
-    #indicesContainer p {
-      margin: 5px 0;
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 8px;
+      background-color: #3a7afe;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:disabled {
+      background-color: #555;
+      cursor: not-allowed;
+    }
+    button:hover:enabled {
+      background-color: #2a5edb;
+    }
+    #feedback {
+      margin-top: 20px;
+      font-size: 18px;
       font-weight: bold;
     }
-
-    #indicesContainer .blurred {
-      filter: blur(6px);
-      user-select: none;
+    .success {
+      color: #4caf50;
     }
-
-    button {
+    .error {
+      color: #e03e3e;
+    }
+    #timer {
       margin-top: 10px;
-      padding: 10px 15px;
       font-size: 16px;
-      border-radius: 6px;
-      border: none;
-      cursor: pointer;
-      background-color: #007bff;
-      color: white;
-    }
-
-    button:hover {
-      background-color: #0056b3;
-    }
-
-    /* Sidebar aide */
-    #helpSidebar {
-      position: fixed;
-      top: 80px;
-      right: 10px;
-      width: 250px;
-      height: 80vh;
-      overflow-y: auto;
-      background: #1e1e1e;
-      border: 1px solid #444;
-      padding: 10px;
-      border-radius: 10px;
-      display: none;
-      z-index: 10;
-    }
-
-    #helpSidebar h3 {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-
-    #helpList div {
-      margin-bottom: 6px;
-      cursor: pointer;
-      color: #ccc;
-    }
-
-    #helpList div:hover {
-      text-decoration: underline;
+      font-weight: bold;
+      color: #bbb;
     }
   </style>
 </head>
 <body>
-  <h1>Animedle 🎮</h1>
+  <h1>CharaClue - Devine l'anime !</h1>
 
-  <div class="input-container">
-    <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime..." />
-    <div id="suggestions" class="suggestions"></div>
-    <div id="counter">Tentatives : 0</div>
-    <button id="indiceBtn">Afficher indice suivant</button>
+  <div id="character-container"></div>
+
+  <div>
+    <select id="guess-select">
+      <option value="">-- Choisis un anime --</option>
+    </select>
+    <button id="submit-btn" disabled>Valider</button>
   </div>
 
-  <div id="indicesContainer" style="display:none;">
-    <p><strong>Indice 1 - Genre principal :</strong> <span id="indice1"></span></p>
-    <p><strong>Indice 2 - Studio :</strong> <span id="indice2"></span></p>
-    <p><strong>Indice 3 - Date de sortie :</strong> <span id="indice3"></span></p>
-    <p><strong>Indice 4 - Première lettre :</strong> <span id="indice4"></span></p>
-    <p><strong>Indice 5 - Image :</strong><br /><img id="indice5" src="" alt="Indice Image" style="width:200px; filter: blur(8px);" /></p>
-  </div>
-
-  <div id="results"></div>
-  <button onclick="resetGame()">🔄 Rejouer</button>
-  <canvas id="fireworks"></canvas>
-
-  <!-- ✅ Aide évolutive -->
-  <div id="helpSidebar">
-    <h3>Aide</h3>
-    <div id="helpList"></div>
-  </div>
+  <p id="timer">Chargement...</p>
+  <p id="feedback"></p>
 
   <script>
-    let animeData = [];
-    let targetAnime = null;
-    let attemptCount = 0;
-    let gameOver = false;
-    let indiceStep = 0;
+    const container = document.getElementById("character-container");
+    const feedback = document.getElementById("feedback");
+    const timerDisplay = document.getElementById("timer");
+    const guessSelect = document.getElementById("guess-select");
+    const submitBtn = document.getElementById("submit-btn");
 
-    fetch('animes.json')
-      .then(response => response.json())
-      .then(data => {
-        animeData = data;
-        targetAnime = animeData[Math.floor(Math.random() * animeData.length)];
-        console.log("Réponse secrète:", targetAnime);
-      });
+    let currentAnime = null;
+    let revealedCount = 0;
+    let gameEnded = false;
+    let countdown = 10;
+    let countdownInterval = null;
+    let allAnimes = [];
 
-    document.getElementById("animeInput").addEventListener("input", function () {
-      const input = this.value.toLowerCase();
-      const matches = animeData.filter(a => a.title.toLowerCase().includes(input)).slice(0, 5);
-      const suggestions = document.getElementById("suggestions");
-      suggestions.innerHTML = "";
-      matches.forEach(anime => {
-        const div = document.createElement("div");
-        div.textContent = anime.title;
-        div.onclick = () => {
-          document.getElementById("animeInput").value = anime.title;
-          suggestions.innerHTML = "";
-          guessAnime();
-        };
-        suggestions.appendChild(div);
-      });
-    });
+    async function loadAnimes() {
+      try {
+        const response = await fetch('animes.json');
+        const animes = await response.json();
+        allAnimes = animes;
 
-    document.getElementById("indiceBtn").addEventListener("click", () => {
-      if (!targetAnime) return;
-      indiceStep++;
-      if (indiceStep > 5) indiceStep = 5;
+        const animeNames = [...new Set(animes.map(a => a.anime))];
+        guessSelect.innerHTML = '<option value="">-- Choisis un anime --</option>';
+        animeNames.forEach(name => {
+          const option = document.createElement("option");
+          option.value = name;
+          option.textContent = name;
+          guessSelect.appendChild(option);
+        });
 
-      document.getElementById("indicesContainer").style.display = "block";
-
-      if (indiceStep >= 1) document.getElementById("indice1").textContent = targetAnime.genres[0] || "N/A";
-      if (indiceStep >= 2) document.getElementById("indice2").textContent = targetAnime.studio || "N/A";
-      if (indiceStep >= 3) document.getElementById("indice3").textContent = targetAnime.season || "N/A";
-      if (indiceStep >= 4) document.getElementById("indice4").textContent = targetAnime.title.charAt(0) || "N/A";
-      if (indiceStep >= 5) {
-        const img = document.getElementById("indice5");
-        img.src = targetAnime.image;
-        img.style.filter = "blur(8px)";
+        currentAnime = animes[Math.floor(Math.random() * animes.length)];
+        initGame();
+      } catch (error) {
+        timerDisplay.textContent = "Erreur de chargement des données.";
+        console.error(error);
       }
-    });
+    }
 
-    function guessAnime() {
-      if (gameOver) return;
+    function initGame() {
+      container.innerHTML = '';
+      feedback.textContent = '';
+      revealedCount = 0;
+      gameEnded = false;
 
-      const input = document.getElementById("animeInput").value.trim();
-      const guessedAnime = animeData.find(a => a.title.toLowerCase() === input.toLowerCase());
+      currentAnime.characters.forEach((char, i) => {
+        const img = document.createElement("img");
+        img.src = char.image;
+        img.alt = char.name;
+        img.className = "character-img";
+        img.id = "char-" + i;
+        container.appendChild(img);
+      });
 
-      if (!guessedAnime) {
-        alert("Anime non trouvé !");
+      revealNextCharacter();
+
+      guessSelect.disabled = false;
+      submitBtn.disabled = true;
+      guessSelect.value = '';
+      guessSelect.focus();
+    }
+
+    function revealNextCharacter() {
+      if (revealedCount < currentAnime.characters.length) {
+        const img = document.getElementById("char-" + revealedCount);
+        if (img) img.style.display = "block";
+        revealedCount++;
+        resetTimer();
+      }
+    }
+
+    function resetTimer() {
+      countdown = 10;
+      timerDisplay.textContent = `Temps restant : ${countdown} s`;
+      if (countdownInterval) clearInterval(countdownInterval);
+      countdownInterval = setInterval(() => {
+        countdown--;
+        if (countdown <= 0) {
+          clearInterval(countdownInterval);
+          if (!gameEnded) {
+            if (revealedCount === currentAnime.characters.length) {
+              feedback.textContent = `⏰ Temps écoulé ! Tu as perdu. C'était "${currentAnime.anime}".`;
+              feedback.className = "error";
+              gameEnded = true;
+              timerDisplay.textContent = "Jeu terminé.";
+              guessSelect.disabled = true;
+              submitBtn.disabled = true;
+            } else {
+              revealNextCharacter();
+            }
+          }
+        } else {
+          timerDisplay.textContent = `Temps restant : ${countdown} s`;
+        }
+      }, 1000);
+    }
+
+    function checkGuess() {
+      if (gameEnded) return;
+
+      const guess = guessSelect.value;
+      if (!guess) {
+        feedback.textContent = "⚠️ Tu dois choisir un anime dans la liste.";
+        feedback.className = "error";
         return;
       }
 
-      attemptCount++;
-      document.getElementById("counter").textContent = "Tentatives : " + attemptCount;
-      updateHelpList();
+      const answer = currentAnime.anime;
 
-      const results = document.getElementById("results");
+      if (guess === answer) {
+        feedback.textContent = `🎉 Bonne réponse ! C'était bien "${answer}"`;
+        feedback.className = "success";
+        gameEnded = true;
+        clearInterval(countdownInterval);
+        timerDisplay.textContent = "Jeu terminé.";
+        guessSelect.disabled = true;
+        submitBtn.disabled = true;
 
-      const keyToClass = {
-        image: "cell-image",
-        title: "cell-title",
-        season: "cell-season",
-        studio: "cell-studio",
-        genresThemes: "cell-genre",
-        score: "cell-score"
-      };
-
-      if (attemptCount === 1) {
-        const header = document.createElement("div");
-        header.classList.add("row");
-        ["Image", "Titre", "Saison", "Studio", "Genres / Thèmes", "Score"].forEach((label, i) => {
-          const cell = document.createElement("div");
-          cell.classList.add("cell", Object.values(keyToClass)[i]);
-          cell.style.fontWeight = "bold";
-          cell.textContent = label;
-          header.appendChild(cell);
-        });
-        results.insertBefore(header, results.firstChild);
-      }
-
-      const row = document.createElement("div");
-      row.classList.add("row");
-
-      const cellImage = document.createElement("div");
-      cellImage.classList.add("cell", keyToClass.image);
-      const img = document.createElement("img");
-      img.src = guessedAnime.image;
-      img.alt = guessedAnime.title;
-      img.style.width = "100px";
-      cellImage.appendChild(img);
-      row.appendChild(cellImage);
-
-      const cellTitle = document.createElement("div");
-      cellTitle.classList.add("cell", keyToClass.title);
-      const isTitleMatch = guessedAnime.title === targetAnime.title;
-      cellTitle.classList.add(isTitleMatch ? "green" : "red");
-      cellTitle.textContent = guessedAnime.title;
-      row.appendChild(cellTitle);
-
-      const cellSeason = document.createElement("div");
-      cellSeason.classList.add("cell", keyToClass.season);
-      const [gs, gy] = guessedAnime.season.split(" ");
-      const [ts, ty] = targetAnime.season.split(" ");
-      const guessYear = parseInt(gy);
-      const targetYear = parseInt(ty);
-      if (gs === ts && gy === ty) {
-        cellSeason.classList.add("green");
-        cellSeason.textContent = `✅ ${guessedAnime.season}`;
-      } else if (gy === ty) {
-        cellSeason.classList.add("orange");
-        cellSeason.textContent = `🟧 ${guessedAnime.season}`;
-      } else {
-        cellSeason.classList.add("red");
-        cellSeason.textContent = guessYear < targetYear ? `🔼 ${guessedAnime.season}` : `${guessedAnime.season} 🔽`;
-      }
-      row.appendChild(cellSeason);
-
-      const cellStudio = document.createElement("div");
-      cellStudio.classList.add("cell", keyToClass.studio);
-      const isStudioMatch = guessedAnime.studio === targetAnime.studio;
-      cellStudio.classList.add(isStudioMatch ? "green" : "red");
-      cellStudio.textContent = guessedAnime.studio;
-      row.appendChild(cellStudio);
-
-      const cellGenresThemes = document.createElement("div");
-      cellGenresThemes.classList.add("cell", keyToClass.genresThemes);
-      const allGuessed = [...guessedAnime.genres, ...guessedAnime.themes];
-      const allTarget = [...targetAnime.genres, ...targetAnime.themes];
-      const matches = allGuessed.filter(x => allTarget.includes(x));
-      if (matches.length === allGuessed.length && matches.length === allTarget.length) {
-        cellGenresThemes.classList.add("green");
-      } else if (matches.length > 0) {
-        cellGenresThemes.classList.add("orange");
-      } else {
-        cellGenresThemes.classList.add("red");
-      }
-      cellGenresThemes.innerHTML = allGuessed.join("<br>");
-      row.appendChild(cellGenresThemes);
-
-      const cellScore = document.createElement("div");
-      cellScore.classList.add("cell", keyToClass.score);
-      const g = parseFloat(guessedAnime.score);
-      const t = parseFloat(targetAnime.score);
-      if (g === t) {
-        cellScore.classList.add("green");
-        cellScore.textContent = `✅ ${g}`;
-      } else {
-        cellScore.classList.add("red");
-        cellScore.textContent = g < t ? `🔼 ${g}` : `${g} 🔽`;
-      }
-      row.appendChild(cellScore);
-
-      const header = results.querySelector(".row");
-      results.insertBefore(row, header.nextSibling);
-
-      document.getElementById("animeInput").value = "";
-      document.getElementById("suggestions").innerHTML = "";
-
-      if (isTitleMatch) {
-        gameOver = true;
-        document.getElementById("animeInput").disabled = true;
-        document.getElementById("indiceBtn").disabled = true;
-        const message = document.createElement("div");
-        message.id = "winMessage";
-        message.innerHTML = `🎆 <span style="font-size:2rem;">🥳</span> Bravo ! C'était <u>${targetAnime.title}</u> en ${attemptCount} tentative${attemptCount > 1 ? 's' : ''}. <span style="font-size:2rem;">🎉</span>`;
-        results.appendChild(message);
-        launchFireworks();
-      }
-    }
-
-    function updateHelpList() {
-      const helpSidebar = document.getElementById("helpSidebar");
-      const helpList = document.getElementById("helpList");
-
-      if (attemptCount < 5) return;
-
-      helpSidebar.style.display = "block";
-      helpList.innerHTML = "";
-
-      let filteredList = [];
-
-      if (attemptCount >= 20) {
-        filteredList = animeData.filter(a => a.season === targetAnime.season);
-      } else if (attemptCount >= 15) {
-        const ty = parseInt(targetAnime.season.split(" ")[1]);
-        filteredList = animeData.filter(a => parseInt(a.season.split(" ")[1]) === ty);
-      } else if (attemptCount >= 10) {
-        const ty = parseInt(targetAnime.season.split(" ")[1]);
-        filteredList = animeData.filter(a => {
-          const y = parseInt(a.season.split(" ")[1]);
-          return Math.abs(y - ty) <= 3;
-        });
-      } else {
-        filteredList = animeData;
-      }
-
-      filteredList.forEach(anime => {
-        const div = document.createElement("div");
-        div.textContent = `${anime.title} (${anime.season})`;
-        div.onclick = () => {
-          document.getElementById("animeInput").value = anime.title;
-          guessAnime();
-        };
-        helpList.appendChild(div);
-      });
-    }
-
-    function resetGame() {
-      location.reload();
-    }
-
-    function launchFireworks() {
-      const canvas = document.getElementById("fireworks");
-      const ctx = canvas.getContext("2d");
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      const particles = [];
-
-      function createParticle(x, y) {
-        const angle = Math.random() * 2 * Math.PI;
-        const speed = Math.random() * 5 + 2;
-        return {
-          x,
-          y,
-          dx: Math.cos(angle) * speed,
-          dy: Math.sin(angle) * speed,
-          life: 60
-        };
-      }
-
-      for (let i = 0; i < 100; i++) {
-        particles.push(createParticle(canvas.width / 2, canvas.height / 2));
-      }
-
-      function animate() {
-        ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-        particles.forEach(p => {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
-          ctx.fillStyle = `hsl(${Math.random() * 360}, 100%, 50%)`;
-          ctx.fill();
-          p.x += p.dx;
-          p.y += p.dy;
-          p.dy += 0.05;
-          p.life--;
-        });
-        for (let i = particles.length - 1; i >= 0; i--) {
-          if (particles[i].life <= 0) particles.splice(i, 1);
+        for (let i = revealedCount; i < currentAnime.characters.length; i++) {
+          document.getElementById("char-" + i).style.display = "block";
         }
-        if (particles.length > 0) requestAnimationFrame(animate);
-        else ctx.clearRect(0, 0, canvas.width, canvas.height);
+      } else {
+        feedback.textContent = "❌ Mauvaise réponse.";
+        feedback.className = "error";
+
+        if (revealedCount < currentAnime.characters.length) {
+          clearInterval(countdownInterval);
+          revealNextCharacter();
+        } else {
+          feedback.textContent += ` Tu as épuisé tous les indices. C'était "${answer}".`;
+          gameEnded = true;
+          timerDisplay.textContent = "Jeu terminé.";
+          guessSelect.disabled = true;
+          submitBtn.disabled = true;
+        }
       }
 
-      animate();
+      guessSelect.value = '';
+      submitBtn.disabled = true;
+      guessSelect.focus();
     }
+
+    // Activer le bouton quand une option est sélectionnée
+    guessSelect.addEventListener("change", () => {
+      submitBtn.disabled = !guessSelect.value;
+    });
+
+    submitBtn.addEventListener("click", checkGuess);
+
+    loadAnimes();
   </script>
 </body>
 </html>
-
-
 
 
