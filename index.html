@@ -8,11 +8,14 @@
       font-family: Arial, sans-serif;
       background-color: #121212;
       color: #f0f0f0;
-      text-align: center;
       padding: 20px;
+    }
+    h1 {
+      text-align: center;
     }
     .input-container {
       margin-bottom: 20px;
+      text-align: center;
     }
     input[type="text"] {
       padding: 10px;
@@ -49,55 +52,19 @@
       white-space: normal;
       overflow-wrap: break-word;
     }
-    .cell-image {
-      min-width: 100px;
-      max-width: 100px;
-    }
-    .cell-title {
-      min-width: 250px;
-      max-width: 280px;
-    }
-    .cell-genre, .cell-theme {
-      min-width: 200px;
-      max-width: 220px;
-      text-align: left;
-    }
-    .cell-studio {
-      min-width: 150px;
-      max-width: 160px;
-    }
-    .cell-season {
-      min-width: 120px;
-      max-width: 130px;
-    }
-    .cell-score {
-      min-width: 90px;
-      max-width: 100px;
-    }
-    .green {
-      background-color: #4caf50 !important;
-      color: white;
-    }
-    .red {
-      background-color: #f44336 !important;
-      color: white;
-    }
-    .orange {
-      background-color: #ff9800 !important;
-      color: white;
-    }
-    #winMessage {
-      margin-top: 20px;
-      font-size: 20px;
-    }
+    .cell-image { min-width: 100px; max-width: 100px; }
+    .cell-title { min-width: 250px; max-width: 280px; }
+    .cell-genre, .cell-theme { min-width: 200px; max-width: 220px; text-align: left; }
+    .cell-studio { min-width: 150px; max-width: 160px; }
+    .cell-season { min-width: 120px; max-width: 130px; }
+    .cell-score { min-width: 90px; max-width: 100px; }
+    .green { background-color: #4caf50 !important; color: white; }
+    .red { background-color: #f44336 !important; color: white; }
+    .orange { background-color: #ff9800 !important; color: white; }
+    #winMessage { margin-top: 20px; font-size: 20px; text-align: center; }
     #fireworks {
-      position: fixed;
-      top: 0;
-      left: 0;
-      height: 100vh;
-      width: 100vw;
-      pointer-events: none;
-      z-index: 1000;
+      position: fixed; top: 0; left: 0; height: 100vh; width: 100vw;
+      pointer-events: none; z-index: 1000;
     }
     #indicesContainer {
       margin: 20px auto;
@@ -107,14 +74,6 @@
       padding: 15px;
       border-radius: 8px;
       border: 1px solid #444;
-    }
-    #indicesContainer p {
-      margin: 5px 0;
-      font-weight: bold;
-    }
-    #indicesContainer .blurred {
-      filter: blur(6px);
-      user-select: none;
     }
     button {
       margin-top: 10px;
@@ -129,25 +88,49 @@
     button:hover {
       background-color: #0056b3;
     }
+    #aideContainer {
+      background: #1b1b1b;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #444;
+      max-height: 600px;
+      overflow-y: auto;
+    }
+    #aideContainer ul {
+      padding-left: 0;
+    }
+    #aideContainer li {
+      margin-bottom: 6px;
+      cursor: pointer;
+    }
+    #aideContainer li:hover {
+      text-decoration: underline;
+      color: #00c3ff;
+    }
   </style>
 </head>
 <body>
   <h1>Animedle 🎮</h1>
-  <div class="input-container">
-    <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime..." />
-    <div id="suggestions" class="suggestions"></div>
-    <div id="counter">Tentatives : 0</div>
-    <button id="indiceBtn">Afficher indice suivant</button>
+  <div style="display:flex; gap:20px; justify-content:center;">
+    <div id="aideContainer" style="width:300px;"></div>
+    <div style="flex:1;">
+      <div class="input-container">
+        <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime..." />
+        <div id="suggestions" class="suggestions"></div>
+        <div id="counter">Tentatives : 0</div>
+        <button id="indiceBtn">Afficher indice suivant</button>
+      </div>
+      <div id="indicesContainer" style="display:none;">
+        <p><strong>Indice 1 - Genre principal :</strong> <span id="indice1"></span></p>
+        <p><strong>Indice 2 - Studio :</strong> <span id="indice2"></span></p>
+        <p><strong>Indice 3 - Date de sortie :</strong> <span id="indice3"></span></p>
+        <p><strong>Indice 4 - Première lettre :</strong> <span id="indice4"></span></p>
+        <p><strong>Indice 5 - Image :</strong><br /><img id="indice5" src="" alt="Indice Image" style="width:200px; filter: blur(8px);" /></p>
+      </div>
+      <div id="results"></div>
+      <button onclick="resetGame()">🔄 Rejouer</button>
+    </div>
   </div>
-  <div id="indicesContainer" style="display:none;">
-    <p><strong>Indice 1 - Genre principal :</strong> <span id="indice1"></span></p>
-    <p><strong>Indice 2 - Studio :</strong> <span id="indice2"></span></p>
-    <p><strong>Indice 3 - Date de sortie :</strong> <span id="indice3"></span></p>
-    <p><strong>Indice 4 - Première lettre :</strong> <span id="indice4"></span></p>
-    <p><strong>Indice 5 - Image :</strong><br /><img id="indice5" src="" alt="Indice Image" style="width:200px; filter: blur(8px);" /></p>
-  </div>
-  <div id="results"></div>
-  <button onclick="resetGame()">🔄 Rejouer</button>
   <canvas id="fireworks"></canvas>
 
   <script>
@@ -186,26 +169,11 @@
       if (!targetAnime) return;
       indiceStep++;
       if (indiceStep > 5) indiceStep = 5;
-
       document.getElementById("indicesContainer").style.display = "block";
-
-      // Indice 1 - Genre principal
-      if (indiceStep >= 1) {
-        document.getElementById("indice1").textContent = targetAnime.genres[0] || "N/A";
-      }
-      // Indice 2 - Studio
-      if (indiceStep >= 2) {
-        document.getElementById("indice2").textContent = targetAnime.studio || "N/A";
-      }
-      // Indice 3 - Date
-      if (indiceStep >= 3) {
-        document.getElementById("indice3").textContent = targetAnime.season || "N/A";
-      }
-      // Indice 4 - Première lettre
-      if (indiceStep >= 4) {
-        document.getElementById("indice4").textContent = targetAnime.title.charAt(0) || "N/A";
-      }
-      // Indice 5 - Image floutée
+      if (indiceStep >= 1) document.getElementById("indice1").textContent = targetAnime.genres[0] || "N/A";
+      if (indiceStep >= 2) document.getElementById("indice2").textContent = targetAnime.studio || "N/A";
+      if (indiceStep >= 3) document.getElementById("indice3").textContent = targetAnime.season || "N/A";
+      if (indiceStep >= 4) document.getElementById("indice4").textContent = targetAnime.title.charAt(0) || "N/A";
       if (indiceStep >= 5) {
         const img = document.getElementById("indice5");
         img.src = targetAnime.image;
@@ -217,7 +185,6 @@
       if (gameOver) return;
       const input = document.getElementById("animeInput").value.trim();
       const guessedAnime = animeData.find(a => a.title.toLowerCase() === input.toLowerCase());
-
       if (!guessedAnime) {
         alert("Anime non trouvé !");
         return;
@@ -225,6 +192,8 @@
 
       attemptCount++;
       document.getElementById("counter").textContent = "Tentatives : " + attemptCount;
+      updateAideList();
+
       const results = document.getElementById("results");
 
       const keyToClass = {
@@ -262,7 +231,7 @@
       cellImage.appendChild(img);
       row.appendChild(cellImage);
 
-      // Title
+      // Titre
       const cellTitle = document.createElement("div");
       cellTitle.classList.add("cell", keyToClass.title);
       const isTitleMatch = guessedAnime.title === targetAnime.title;
@@ -270,13 +239,11 @@
       cellTitle.textContent = guessedAnime.title;
       row.appendChild(cellTitle);
 
-      // Season
+      // Saison
       const cellSeason = document.createElement("div");
       cellSeason.classList.add("cell", keyToClass.season);
       const [gs, gy] = guessedAnime.season.split(" ");
       const [ts, ty] = targetAnime.season.split(" ");
-      const guessYear = parseInt(gy);
-      const targetYear = parseInt(ty);
       if (gs === ts && gy === ty) {
         cellSeason.classList.add("green");
         cellSeason.textContent = `✅ ${guessedAnime.season}`;
@@ -285,7 +252,7 @@
         cellSeason.textContent = `🟧 ${guessedAnime.season}`;
       } else {
         cellSeason.classList.add("red");
-        cellSeason.textContent = guessYear < targetYear
+        cellSeason.textContent = parseInt(gy) < parseInt(ty)
           ? `🔼 ${guessedAnime.season}`
           : `${guessedAnime.season} 🔽`;
       }
@@ -299,7 +266,7 @@
       cellStudio.textContent = guessedAnime.studio;
       row.appendChild(cellStudio);
 
-      // Genres / Themes fusionnés
+      // Genres / Thèmes
       const cellGenresThemes = document.createElement("div");
       cellGenresThemes.classList.add("cell", keyToClass.genresThemes);
       const allGuessed = [...guessedAnime.genres, ...guessedAnime.themes];
@@ -329,14 +296,13 @@
       }
       row.appendChild(cellScore);
 
-      // Insérer la ligne juste après l'en-tête (qui est la première div dans results)
       const header = results.querySelector(".row");
       results.insertBefore(row, header.nextSibling);
 
       document.getElementById("animeInput").value = "";
       document.getElementById("suggestions").innerHTML = "";
 
-      if (guessedAnime.title === targetAnime.title) {
+      if (isTitleMatch) {
         gameOver = true;
         document.getElementById("animeInput").disabled = true;
         document.getElementById("indiceBtn").disabled = true;
@@ -346,6 +312,37 @@
         results.appendChild(message);
         launchFireworks();
       }
+    }
+
+    function updateAideList() {
+      const aideDiv = document.getElementById("aideContainer");
+      if (attemptCount < 5) {
+        aideDiv.innerHTML = "";
+        return;
+      }
+
+      let filtered = animeData;
+      const [season, yearStr] = targetAnime.season.split(" ");
+      const targetYear = parseInt(yearStr);
+
+      if (attemptCount >= 25) {
+        filtered = filtered.filter(a => a.season === targetAnime.season);
+      } else if (attemptCount >= 20) {
+        filtered = filtered.filter(a => parseInt(a.season.split(" ")[1]) === targetYear);
+      } else if (attemptCount >= 15) {
+        filtered = filtered.filter(a => Math.abs(parseInt(a.season.split(" ")[1]) - targetYear) <= 2);
+      } else if (attemptCount >= 10) {
+        filtered = filtered.filter(a => Math.abs(parseInt(a.season.split(" ")[1]) - targetYear) <= 5);
+      }
+
+      aideDiv.innerHTML = `<h3>🔍 Suggestions</h3><ul>` +
+        filtered.map(a => `<li onclick="selectFromAide('${a.title.replace(/'/g, "\\'")}')">${a.title}</li>`).join("") +
+        `</ul>`;
+    }
+
+    function selectFromAide(title) {
+      document.getElementById("animeInput").value = title;
+      guessAnime();
     }
 
     function resetGame() {
@@ -362,13 +359,7 @@
       function createParticle(x, y) {
         const angle = Math.random() * 2 * Math.PI;
         const speed = Math.random() * 5 + 2;
-        return {
-          x,
-          y,
-          dx: Math.cos(angle) * speed,
-          dy: Math.sin(angle) * speed,
-          life: 60
-        };
+        return { x, y, dx: Math.cos(angle) * speed, dy: Math.sin(angle) * speed, life: 60 };
       }
 
       for (let i = 0; i < 100; i++) {
