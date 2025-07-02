@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Animedle avec Indices</title>
+  <title>Animedle avec Aide</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -10,6 +10,25 @@
       color: #f0f0f0;
       text-align: center;
       padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .main-container {
+      max-width: 1000px;
+      width: 100%;
+      display: flex;
+      gap: 20px;
+    }
+    .left, .right {
+      flex: 1;
+    }
+    .right {
+      max-width: 280px;
+      background: #1d1d1d;
+      padding: 10px;
+      border-radius: 10px;
+      border: 1px solid #333;
+      text-align: left;
     }
     .input-container {
       margin-bottom: 20px;
@@ -74,18 +93,9 @@
       min-width: 90px;
       max-width: 100px;
     }
-    .green {
-      background-color: #4caf50 !important;
-      color: white;
-    }
-    .red {
-      background-color: #f44336 !important;
-      color: white;
-    }
-    .orange {
-      background-color: #ff9800 !important;
-      color: white;
-    }
+    .green { background-color: #4caf50 !important; color: white; }
+    .red { background-color: #f44336 !important; color: white; }
+    .orange { background-color: #ff9800 !important; color: white; }
     #winMessage {
       margin-top: 20px;
       font-size: 20px;
@@ -101,8 +111,6 @@
     }
     #indicesContainer {
       margin: 20px auto;
-      max-width: 600px;
-      text-align: left;
       background: #222;
       padding: 15px;
       border-radius: 8px;
@@ -111,10 +119,6 @@
     #indicesContainer p {
       margin: 5px 0;
       font-weight: bold;
-    }
-    #indicesContainer .blurred {
-      filter: blur(6px);
-      user-select: none;
     }
     button {
       margin-top: 10px;
@@ -130,47 +134,48 @@
       background-color: #0056b3;
     }
     #aideContainer {
-      background: #1b1b1b;
-      padding: 8px;
-      border-radius: 6px;
-      border: 1px solid #444;
-      max-height: 500px;
-      width: 220px;
-      overflow-y: auto;
       font-size: 14px;
-      text-align: left;
+    }
+    #aideContainer h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+    #aideList {
+      max-height: 500px;
+      overflow-y: auto;
+    }
+    #aideList div {
+      padding: 4px 0;
+      border-bottom: 1px solid #333;
     }
   </style>
 </head>
 <body>
-  <h1>Animedle 🎮</h1>
-  <div class="input-container">
-    <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime..." />
-    <div id="suggestions" class="suggestions"></div>
-    <div id="counter">Tentatives : 0</div>
-    <button id="indiceBtn">Afficher indice suivant</button>
-  </div>
-  <div id="indicesContainer" style="display:none;">
-    <p><strong>Indice 1 - Genre principal :</strong> <span id="indice1"></span></p>
-    <p><strong>Indice 2 - Studio :</strong> <span id="indice2"></span></p>
-    <p><strong>Indice 3 - Date de sortie :</strong> <span id="indice3"></span></p>
-    <p><strong>Indice 4 - Première lettre :</strong> <span id="indice4"></span></p>
-    <p><strong>Indice 5 - Image :</strong><br /><img id="indice5" src="" alt="Indice Image" style="width:200px; filter: blur(8px);" /></p>
-  </div>
-
-  <div style="display:flex; gap:12px; justify-content:center; align-items: flex-start;">
-    <div style="flex:1;">
+  <div class="main-container">
+    <div class="left">
+      <h1>Animedle 🎮</h1>
+      <div class="input-container">
+        <input type="text" id="animeInput" placeholder="Entrez le nom d'un anime..." />
+        <div id="suggestions" class="suggestions"></div>
+        <div id="counter">Tentatives : 0</div>
+        <button id="indiceBtn">Afficher indice suivant</button>
+      </div>
+      <div id="indicesContainer" style="display:none;">
+        <p><strong>Indice 1 - Genre principal :</strong> <span id="indice1"></span></p>
+        <p><strong>Indice 2 - Studio :</strong> <span id="indice2"></span></p>
+        <p><strong>Indice 3 - Date de sortie :</strong> <span id="indice3"></span></p>
+        <p><strong>Indice 4 - Première lettre :</strong> <span id="indice4"></span></p>
+        <p><strong>Indice 5 - Image :</strong><br /><img id="indice5" src="" alt="Indice Image" style="width:200px; filter: blur(8px);" /></p>
+      </div>
       <div id="results"></div>
       <button onclick="resetGame()">🔄 Rejouer</button>
     </div>
-    <div id="aideContainer"></div>
+    <div class="right" id="aideContainer">
+      <h3>Aide progressive</h3>
+      <div id="aideList"></div>
+    </div>
   </div>
-
   <canvas id="fireworks"></canvas>
-
-  <script>
-    // Le script complet (avec data, logique du jeu, indices, aide progressive)
-    // devra être inséré ici. Si tu veux, je peux aussi générer la version JS complète !
-  </script>
+<script src="script.js"></script>
 </body>
 </html>
